@@ -1,0 +1,1 @@
+// El Hoisting es el comportamiento predeterminado de JavaScript al mover declaraciones a la Arriba.

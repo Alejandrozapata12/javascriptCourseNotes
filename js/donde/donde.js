@@ -1,0 +1,1 @@
+let two = document.getElementById("demo_2").innerHTML = "Intento dos";

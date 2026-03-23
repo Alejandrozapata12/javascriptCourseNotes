@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos objetos</title>
+</head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        transition: all 300ms ease;
+        background-color: #000;
+    }
+
+    .container {
+        margin: 0 auto;
+        border: 1px solid #c5c5c5;
+        border-radius: 11px;
+        width: 500px;
+        box-shadow: 0px 0px 8px #d4d4d4;
+
+        p {
+            text-align: center;
+            padding: 8px;
+            color: aliceblue;
+        }
+
+        .buttons {
+            display: flex;
+            flex-flow: row;
+            gap: 8px;
+            justify-content: center;
+            align-content: center;
+
+            button {
+                display: block;
+                margin: auto;
+                width: 100px;
+                border: none;
+                border-radius: 9px;
+                padding: 12px;
+                background-color: slateblue;
+                color: #ffff;
+                font-weight: bold;
+                cursor: pointer;
+                margin-bottom: 3px;
+            }
+        }
+    }
+</style>
+
+<body>
+
+    <div class="container">
+        <p id="show"></p>
+        <div class="buttons">
+            <button id="btnAct">Get data</button>
+            <!--<button id="remove" style="background-color: red !important;">Remove data</button>-->
+        </div>
+    </div>
+
+
+    <script>
+        const par_show = document.getElementById("show");
+        const btn = document.getElementById("btnAct");
+        const remove = document.getElementById("remove");
+
+        btn.addEventListener("click", () => {
+
+            par_show.innerHTML = " ";
+
+        
+            // Constructor general
+            function Estructura(nombre, edad, active) {
+                this.nombre = nombre;
+                this.edad = edad;
+                this.active = active;
+            }
+            // Creación de objetos
+
+            const personas = [
+                new Estructura("Alejandro", 24, true),
+                new Estructura("Andres", 35, false),
+                new Estructura("Carlos", 40, true)
+            ]
+
+            personas.forEach(persona => mostrarData(persona));
+
+
+            // Render para la data
+            function mostrarData(item) {
+                par_show.innerHTML += `
+                <strong>Nombre:</strong> ${item.nombre} <br>
+                <strong>Edad:</strong> ${item.edad} <br>
+                <strong>Activo:</strong> ${item.active}<br>
+                 `;
+            }
+
+            
+
+        })
+   
+        
+
+    </script>
+</body>
+
+</html>

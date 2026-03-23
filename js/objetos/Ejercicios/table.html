@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de datos</title>
+</head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .container {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #ffffff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    /* CABECERA */
+thead{
+    background: #1e293b;
+    color: white;
+}
+
+thead th{
+    padding: 14px;
+    text-align: left;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* CELDAS */
+tbody td{
+    padding: 12px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+}
+
+/* HOVER FILAS */
+tbody tr:hover{
+    background: #f8fafc;
+    transition: 0.2s;
+}
+
+/* FILAS ALTERNADAS */
+tbody tr:nth-child(even){
+    background: #fcfcfc;
+}
+
+.container_btn{
+    width: 100px;
+    margin: 0 auto;
+
+    button{
+        border: none;
+        border-radius: 8px;
+        padding: 7px;
+        cursor: pointer;
+        background-color: #166534;
+        color: #f1f5f9;
+        margin-top: 2rem;
+    }
+}
+
+</style>
+
+<body>
+
+    <div class="container">
+        <h2>Lista de productos</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                </tr>
+
+            <tbody id="bodyTable">
+
+            </tbody>
+            </thead>
+        </table>
+
+        <div class="container_btn">
+            <button id="btn">Get data</button>
+        </div>
+    </div>
+    <script src="table.js"></script>
+</body>
+
+</html>
