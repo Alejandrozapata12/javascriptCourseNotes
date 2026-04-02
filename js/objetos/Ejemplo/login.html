@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | AlejoDev Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ==========================================
+       VARIABLES CSS (Tema Claro/Oscuro)
+       ========================================== */
+    :root {
+      --amarillo: #FFD700;
+      --amarillo-oscuro: #E6C200;
+      --amarillo-claro: #FFF3B0;
+      --negro: #0a0a0a;
+      --negro-claro: #1a1a1a;
+      --negro-suave: #252525;
+      --blanco: #ffffff;
+      --blanco-suave: #f8f9fa;
+      --gris: #6b7280;
+      --gris-claro: #9ca3af;
+      --gris-fondo: #f3f4f6;
+      --verde: #10b981;
+      --rojo: #ef4444;
+      --azul: #3b82f6;
+      --morado: #8b5cf6;
+      --sombra-suave: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --sombra-media: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --sombra-fuerte: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --radio: 16px;
+      --radio-sm: 8px;
+    }
+
+    [data-theme="dark"] {
+      --blanco: #0a0a0a;
+      --blanco-suave: #1a1a1a;
+      --gris-fondo: #0f0f0f;
+      --negro: #ffffff;
+      --negro-claro: #e5e5e5;
+      --negro-suave: #d4d4d4;
+      --sombra-suave: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+      --sombra-media: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      --sombra-fuerte: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    /* ==========================================
+       RESET Y BASE
+       ========================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gris-fondo);
+      color: var(--negro);
+      line-height: 1.6;
+      transition: var(--transicion);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ==========================================
+       FONDO ANIMADO
+       ========================================== */
+    .background-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .background-animation::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+      border-radius: 50%;
+      top: -200px;
+      right: -200px;
+      opacity: 0.1;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .background-animation::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, var(--azul), var(--morado));
+      border-radius: 50%;
+      bottom: -100px;
+      left: -100px;
+      opacity: 0.1;
+      animation: float 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(50px, 50px) rotate(90deg); }
+      50% { transform: translate(0, 100px) rotate(180deg); }
+      75% { transform: translate(-50px, 50px) rotate(270deg); }
+    }
+
+    /* ==========================================
+       THEME TOGGLE
+       ========================================== */
+    .theme-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--blanco);
+      border: 2px solid var(--gris-fondo);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transicion);
+      z-index: 100;
+      box-shadow: var(--sombra-suave);
+    }
+
+    .theme-toggle:hover {
+      background: var(--amarillo);
+      border-color: var(--amarillo);
+      transform: rotate(180deg);
+    }
+
+    .theme-toggle i {
+      font-size: 1.25rem;
+      color: var(--negro);
+    }
+
+    /* ==========================================
+       LOGIN CONTAINER
+       ========================================== */
+    .login-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1000px;
+      width: 100%;
+      background: var(--blanco);
+      border-radius: var(--radio);
+      box-shadow: var(--sombra-fuerte);
+      overflow: hidden;
+      animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ==========================================
+       LEFT SIDE (FORM)
+       ========================================== */
+    .login-left {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+      border-radius: var(--radio-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--negro);
+    }
+
+    .logo-text {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--negro);
+    }
+
+    .logo-text span {
+      color: var(--amarillo);
+    }
+
+    .welcome-text {
+      margin-bottom: 2rem;
+    }
+
+    .welcome-text h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-text p {
+      color: var(--gris);
+      font-size: 1rem;
+    }
+
+    /* ==========================================
+       FORM STYLES
+       ========================================== */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--negro);
+    }
+
+    .form-input-wrapper {
+      position: relative;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid var(--gris-fondo);
+      border-radius: var(--radio-sm);
+      font-size: 1rem;
+      transition: var(--transicion);
+      background: var(--gris-fondo);
+      color: var(--negro);
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--amarillo);
+      background: var(--blanco);
+    }
+
+    .form-input.error {
+      border-color: var(--rojo);
+    }
+
+    .form-input.success {
+      border-color: var(--verde);
+    }
+
+    .form-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gris);
+      transition: var(--transicion);
+    }
+
+    .form-input:focus + .form-icon,
+    .form-input:focus ~ .form-icon {
+      color: var(--amarillo);
+    }
+
+    .form-input-wrapper i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gris);
+      transition: var(--transicion);
+    }
+
+    .form-input:focus ~ i {
+      color: var(--amarillo);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--gris);
+      transition: var(--transicion);
+    }
+
+    .password-toggle:hover {
+      color: var(--amarillo);
+    }
+
+    .form-error {
+      color: var(--rojo);
+      font-size: 0.8rem;
+      display: none;
+    }
+
+    .form-error.visible {
+      display: block;
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* ==========================================
+       FORM OPTIONS (Remember & Forgot)
+       ========================================== */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--amarillo);
+      cursor: pointer;
+    }
+
+    .remember-me label {
+      font-size: 0.9rem;
+      color: var(--gris);
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      color: var(--amarillo-oscuro);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transicion);
+    }
+
+    .forgot-password:hover {
+      color: var(--amarillo);
+      text-decoration: underline;
+    }
+
+    /* ==========================================
+       SUBMIT BUTTON
+       ========================================== */
+    .btn-submit {
+      background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+      color: var(--negro);
+      border: none;
+      padding: 1rem;
+      border-radius: var(--radio-sm);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transicion);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-submit .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--negro);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .btn-submit.loading .btn-text {
+      display: none;
+    }
+
+    .btn-submit.loading .spinner {
+      display: block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================
+       DIVIDER
+       ========================================== */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--gris);
+      font-size: 0.85rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gris-fondo);
+    }
+
+    /* ==========================================
+       SOCIAL LOGIN
+       ========================================== */
+    .social-login {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border: 2px solid var(--gris-fondo);
+      border-radius: var(--radio-sm);
+      background: var(--blanco);
+      color: var(--negro);
+      cursor: pointer;
+      transition: var(--transicion);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .social-btn:hover {
+      border-color: var(--amarillo);
+      background: var(--gris-fondo);
+      transform: translateY(-2px);
+    }
+
+    .social-btn.google {
+      color: #DB4437;
+    }
+
+    .social-btn.github {
+      color: #333;
+    }
+
+    .social-btn.linkedin {
+      color: #0077B5;
+    }
+
+    /* ==========================================
+       RIGHT SIDE (IMAGE/INFO)
+       ========================================== */
+    .login-right {
+      background: linear-gradient(135deg, var(--negro), var(--negro-claro));
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-right::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--amarillo) 0%, transparent 70%);
+      top: -50%;
+      right: -50%;
+      opacity: 0.1;
+      animation: rotate 30s linear infinite;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    .right-content {
+      position: relative;
+      z-index: 1;
+      color: var(--blanco);
+    }
+
+    .right-content h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .right-content h2 span {
+      color: var(--amarillo);
+    }
+
+    .right-content p {
+      font-size: 1.1rem;
+      color: var(--gris-claro);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .features-list {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      font-size: 1rem;
+      color: var(--blanco-suave);
+    }
+
+    .features-list li i {
+      color: var(--amarillo);
+      font-size: 1.2rem;
+    }
+
+    .testimonial {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: var(--radio);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: var(--blanco-suave);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--negro);
+    }
+
+    .testimonial-info {
+      text-align: left;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: var(--gris-claro);
+    }
+
+    /* ==========================================
+       NOTIFICATIONS
+       ========================================== */
+    .notification-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .notification {
+      background: var(--blanco);
+      padding: 1rem 1.5rem;
+      border-radius: var(--radio-sm);
+      box-shadow: var(--sombra-fuerte);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideIn 0.3s ease;
+      min-width: 300px;
+      border-left: 4px solid var(--amarillo);
+    }
+
+    .notification.success {
+      border-left-color: var(--verde);
+    }
+
+    .notification.error {
+      border-left-color: var(--rojo);
+    }
+
+    .notification.warning {
+      border-left-color: #d97706;
+    }
+
+    .notification.info {
+      border-left-color: var(--azul);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* ==========================================
+       RESPONSIVE
+       ========================================== */
+    @media (max-width: 768px) {
+      .login-container {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+      }
+
+      .login-right {
+        display: none;
+      }
+
+      .login-left {
+        padding: 2rem;
+      }
+
+      .welcome-text h1 {
+        font-size: 1.5rem;
+      }
+
+      .theme-toggle {
+        top: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    /* ==========================================
+       SCROLLBAR CUSTOM
+       ========================================== */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--gris-fondo);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gris-claro);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--amarillo);
+    }
+
+    /* ==========================================
+       UTILITIES
+       ========================================== */
+    .text-gradient {
+      background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ==========================================
+       LOADING OVERLAY
+       ========================================== */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--blanco);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: var(--transicion);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .loading-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loading-logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+      border-radius: var(--radio);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--negro);
+      margin-bottom: 1.5rem;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .loading-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--negro);
+    }
+
+    .loading-dots {
+      display: inline-flex;
+      gap: 0.25rem;
+    }
+
+    .loading-dots span {
+      width: 8px;
+      height: 8px;
+      background: var(--amarillo);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- LOADING OVERLAY -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-logo">
+      <i class="fas fa-terminal"></i>
+    </div>
+    <div class="loading-text">
+      Cargando<span class="loading-dots"><span></span><span></span><span></span></span>
+    </div>
+  </div>
+
+  <!-- BACKGROUND ANIMATION -->
+  <div class="background-animation"></div>
+
+  <!-- THEME TOGGLE -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
+    <i class="fas fa-moon" id="themeIcon"></i>
+  </button>
+
+  <!-- NOTIFICATION CONTAINER -->
+  <div class="notification-container" id="notificationContainer"></div>
+
+  <!-- LOGIN CONTAINER -->
+  <div class="login-container">
+    
+    <!-- LEFT SIDE (FORM) -->
+    <div class="login-left">
+      <div class="logo-section">
+        <div class="logo-icon">
+          <i class="fas fa-terminal"></i>
+        </div>
+        <div class="logo-text">Alejo<span>Dev</span></div>
+      </div>
+
+      <div class="welcome-text">
+        <h1>¡Bienvenido de nuevo! 👋</h1>
+        <p>Ingresa tus credenciales para acceder al dashboard</p>
+      </div>
+
+      <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+        
+        <!-- EMAIL FIELD -->
+        <div class="form-group">
+          <label class="form-label" for="email">
+            <i class="fas fa-envelope" style="margin-right: 0.5rem; color: var(--amarillo);"></i>
+            Correo Electrónico
+          </label>
+          <div class="form-input-wrapper">
+            <input 
+              type="email" 
+              id="email" 
+              class="form-input" 
+              placeholder="tu@email.com"
+              autocomplete="email"
+              required
+            >
+            <i class="fas fa-at"></i>
+            <span class="form-error" id="emailError">Por favor ingresa un email válido</span>
+          </div>
+        </div>
+
+        <!-- PASSWORD FIELD -->
+        <div class="form-group">
+          <label class="form-label" for="password">
+            <i class="fas fa-lock" style="margin-right: 0.5rem; color: var(--amarillo);"></i>
+            Contraseña
+          </label>
+          <div class="form-input-wrapper">
+            <input 
+              type="password" 
+              id="password" 
+              class="form-input" 
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+              minlength="6"
+            >
+            <i class="fas fa-key"></i>
+            <button type="button" class="password-toggle" onclick="togglePassword()">
+              <i class="fas fa-eye" id="passwordIcon"></i>
+            </button>
+            <span class="form-error" id="passwordError">La contraseña debe tener al menos 6 caracteres</span>
+          </div>
+        </div>
+
+        <!-- OPTIONS -->
+        <div class="form-options">
+          <label class="remember-me">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe">Recordarme</label>
+          </label>
+          <a href="#" class="forgot-password" onclick="forgotPassword()">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span class="btn-text">
+            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+          </span>
+          <div class="spinner"></div>
+        </button>
+
+      </form>
+
+      <!-- DIVIDER -->
+      <div class="divider">
+        <span>o continúa con</span>
+      </div>
+
+      <!-- SOCIAL LOGIN -->
+      <div class="social-login">
+        <button class="social-btn google" onclick="socialLogin('google')">
+          <i class="fab fa-google"></i>
+          <span>Google</span>
+        </button>
+        <button class="social-btn github" onclick="socialLogin('github')">
+          <i class="fab fa-github"></i>
+          <span>GitHub</span>
+        </button>
+        <button class="social-btn linkedin" onclick="socialLogin('linkedin')">
+          <i class="fab fa-linkedin"></i>
+          <span>LinkedIn</span>
+        </button>
+      </div>
+
+      <!-- SIGN UP LINK -->
+      <p style="text-align: center; margin-top: 2rem; color: var(--gris); font-size: 0.9rem;">
+        ¿No tienes cuenta? 
+        <a href="#" style="color: var(--amarillo-oscuro); font-weight: 600; text-decoration: none;" onclick="showNotification('Próximamente: Registro de usuarios', 'info')">
+          Regístrate gratis
+        </a>
+      </p>
+    </div>
+
+    <!-- RIGHT SIDE (INFO) -->
+    <div class="login-right">
+      <div class="right-content">
+        <h2>Dashboard <span>Premium</span> para Profesionales</h2>
+        <p>Accede a herramientas avanzadas de análisis, gestión de usuarios y métricas en tiempo real.</p>
+
+        <ul class="features-list">
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Analíticas en tiempo real</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Gestión de usuarios y productos</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Gráficos interactivos con Chart.js</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Modo oscuro/claro</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Diseño responsive premium</span>
+          </li>
+        </ul>
+
+        <div class="testimonial">
+          <p class="testimonial-text">
+            "El dashboard más completo y profesional que he usado. La experiencia de usuario es increíble."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">AD</div>
+            <div class="testimonial-info">
+              <div class="testimonial-name">AlejoDev</div>
+              <div class="testimonial-role">Full-Stack Developer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       JAVASCRIPT
+       ========================================== -->
+  <script>
+    // ==========================================
+    // ESTADO DE LA APLICACIÓN
+    // ==========================================
+    const AppState = {
+      theme: localStorage.getItem('theme') || 'light',
+      isAuthenticated: false,
+      user: null,
+      rememberMe: false
+    };
+
+    // Credenciales válidas (para demo)
+    const VALID_CREDENTIALS = {
+      email: 'admin@alejodev.com',
+      password: 'admin123'
+    };
+
+    // ==========================================
+    // INICIALIZACIÓN
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      // Aplicar tema guardado
+      applyTheme(AppState.theme);
+      
+      // Verificar si ya está autenticado
+      checkAuthentication();
+      
+      // Ocultar loading overlay
+      setTimeout(() => {
+        document.getElementById('loadingOverlay').classList.add('hidden');
+      }, 1500);
+    });
+
+    // ==========================================
+    // TEMA (DARK/LIGHT)
+    // ==========================================
+    const toggleTheme = () => {
+      AppState.theme = AppState.theme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', AppState.theme);
+      applyTheme(AppState.theme);
+    };
+
+    const applyTheme = (theme) => {
+      document.documentElement.setAttribute('data-theme', theme);
+      const icon = document.getElementById('themeIcon');
+      icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    };
+
+    // ==========================================
+    // AUTENTICACIÓN
+    // ==========================================
+    const checkAuthentication = () => {
+      const savedUser = localStorage.getItem('user');
+      const token = localStorage.getItem('token');
+      
+      if (savedUser && token) {
+        AppState.isAuthenticated = true;
+        AppState.user = JSON.parse(savedUser);
+        
+        // Si hay token válido, redirigir al dashboard
+        setTimeout(() => {
+          redirectToDashboard();
+        }, 1000);
+      }
+    };
+
+    const handleLogin = async (event) => {
+      event.preventDefault();
+      
+      // Obtener valores
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const rememberMe = document.getElementById('rememberMe').checked;
+      const submitBtn = document.getElementById('submitBtn');
+      
+      // Resetear errores
+      resetErrors();
+      
+      // Validar campos
+      let isValid = true;
+      
+      if (!validateEmail(email)) {
+        showError('email', 'Por favor ingresa un email válido');
+        isValid = false;
+      }
+      
+      if (password.length < 6) {
+        showError('password', 'La contraseña debe tener al menos 6 caracteres');
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Mostrar loading
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      
+      // Simular llamada a API
+      try {
+        await simulateAPICall(2000);
+        
+        // Verificar credenciales
+        if (email === VALID_CREDENTIALS.email && password === VALID_CREDENTIALS.password) {
+          // Login exitoso
+          AppState.isAuthenticated = true;
+          AppState.user = {
+            email: email,
+            name: 'AlejoDev',
+            role: 'admin',
+            avatar: 'AD'
+          };
+          
+          // Guardar sesión
+          if (rememberMe) {
+            localStorage.setItem('user', JSON.stringify(AppState.user));
+            localStorage.setItem('token', generateToken());
+          } else {
+            sessionStorage.setItem('user', JSON.stringify(AppState.user));
+            sessionStorage.setItem('token', generateToken());
+          }
+          
+          showNotification('¡Inicio de sesión exitoso!', 'success');
+          
+          // Redirigir al dashboard
+          setTimeout(() => {
+            redirectToDashboard();
+          }, 1500);
+          
+        } else {
+          // Credenciales incorrectas
+          throw new Error('Credenciales incorrectas. Usa: admin@alejodev.com / admin123');
+        }
+        
+      } catch (error) {
+        showNotification(error.message, 'error');
+        showError('email', 'Credenciales incorrectas');
+        showError('password', 'Credenciales incorrectas');
+      } finally {
+        // Resetear botón
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
+    };
+
+    const validateEmail = (email) => {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    };
+
+    const showError = (field, message) => {
+      const input = document.getElementById(field);
+      const error = document.getElementById(`${field}Error`);
+      
+      input.classList.add('error');
+      input.classList.remove('success');
+      error.textContent = message;
+      error.classList.add('visible');
+    };
+
+    const resetErrors = () => {
+      document.querySelectorAll('.form-input').forEach(input => {
+        input.classList.remove('error', 'success');
+      });
+      document.querySelectorAll('.form-error').forEach(error => {
+        error.classList.remove('visible');
+      });
+    };
+
+    // ==========================================
+    // PASSWORD TOGGLE
+    // ==========================================
+    const togglePassword = () => {
+      const passwordInput = document.getElementById('password');
+      const passwordIcon = document.getElementById('passwordIcon');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordIcon.className = 'fas fa-eye-slash';
+      } else {
+        passwordInput.type = 'password';
+        passwordIcon.className = 'fas fa-eye';
+      }
+    };
+
+    // ==========================================
+    // SOCIAL LOGIN (SIMULADO)
+    // ==========================================
+    const socialLogin = async (provider) => {
+      showNotification(`Conectando con ${provider}...`, 'info');
+      
+      try {
+        await simulateAPICall(1500);
+        
+        // Simular login exitoso
+        AppState.isAuthenticated = true;
+        AppState.user = {
+          email: `user@${provider}.com`,
+          name: `User ${provider}`,
+          role: 'user',
+          avatar: provider[0].toUpperCase()
+        };
+        
+        localStorage.setItem('user', JSON.stringify(AppState.user));
+        localStorage.setItem('token', generateToken());
+        
+        showNotification(`¡Bienvenido con ${provider}!`, 'success');
+        
+        setTimeout(() => {
+          redirectToDashboard();
+        }, 1500);
+        
+      } catch (error) {
+        showNotification(`Error al conectar con ${provider}`, 'error');
+      }
+    };
+
+    // ==========================================
+    // FORGOT PASSWORD
+    // ==========================================
+    const forgotPassword = () => {
+      const email = document.getElementById('email').value;
+      
+      if (email && validateEmail(email)) {
+        showNotification(`Enviando instrucciones a ${email}...`, 'info');
+        setTimeout(() => {
+          showNotification('¡Correo de recuperación enviado!', 'success');
+        }, 1500);
+      } else {
+        showNotification('Por favor ingresa tu email primero', 'warning');
+        document.getElementById('email').focus();
+      }
+    };
+
+    // ==========================================
+    // UTILIDADES
+    // ==========================================
+    const simulateAPICall = (ms) => {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    };
+
+    const generateToken = () => {
+      return 'token_' + Math.random().toString(36).substr(2) + Date.now().toString(36);
+    };
+
+    const redirectToDashboard = () => {
+      showNotification('Redirigiendo al dashboard...', 'success');
+      
+      // En producción, cambia esto por la ruta real de tu dashboard
+      // window.location.href = 'dashboard.html';
+      
+      // Para demo, mostramos un mensaje
+      setTimeout(() => {
+        showNotification('🎉 ¡Redirigiendo a dashboard.html!', 'success');
+        // Descomenta la siguiente línea para redirigir realmente
+        window.location.href = 'index.html';
+      }, 1000);
+    };
+
+    // ==========================================
+    // NOTIFICACIONES
+    // ==========================================
+    const showNotification = (message, type = 'info') => {
+      const container = document.getElementById('notificationContainer');
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      
+      const icons = {
+        success: 'check-circle',
+        error: 'exclamation-circle',
+        warning: 'exclamation-triangle',
+        info: 'info-circle'
+      };
+      
+      notification.innerHTML = `
+        <i class="fas fa-${icons[type]}"></i>
+        <span>${message}</span>
+      `;
+      
+      container.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => notification.remove(), 300);
+      }, 4000);
+    };
+
+    // ==========================================
+    // INPUT VALIDATION EN TIEMPO REAL
+    // ==========================================
+    document.getElementById('email')?.addEventListener('input', function() {
+      const error = document.getElementById('emailError');
+      if (validateEmail(this.value)) {
+        this.classList.remove('error');
+        this.classList.add('success');
+        error.classList.remove('visible');
+      } else {
+        this.classList.remove('success');
+      }
+    });
+
+    document.getElementById('password')?.addEventListener('input', function() {
+      const error = document.getElementById('passwordError');
+      if (this.value.length >= 6) {
+        this.classList.remove('error');
+        this.classList.add('success');
+        error.classList.remove('visible');
+      } else {
+        this.classList.remove('success');
+      }
+    });
+
+    // ==========================================
+    // KEYBOARD SHORTCUTS
+    // ==========================================
+    document.addEventListener('keydown', (e) => {
+      // Enter para submit
+      if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+        e.preventDefault();
+        document.getElementById('loginForm').requestSubmit();
+      }
+      
+      // ESC para limpiar formulario
+      if (e.key === 'Escape') {
+        resetErrors();
+        document.getElementById('loginForm').reset();
+      }
+    });
+
+    // ==========================================
+    // PREVENT FORM RESUBMISSION
+    // ==========================================
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
+</body>
+</html>

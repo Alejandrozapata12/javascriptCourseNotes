@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios || funciones en JS</title>
+</head>
+<style>
+    .ex {
+        margin: 0 auto;
+        width: 300px;
+        border: 2px solid tomato;
+        padding: 10px;
+        border-radius: 12px;
+    }
+</style>
+
+<body>
+
+
+    <div class="ex">
+        <p>
+            La siguiente función devuelve true si el parámetro age es mayor que 18.
+
+            De lo contrario, solicita una confirmación y devuelve su resultado.
+
+            function checkAge(age) {
+            if (age > 18) {
+            return true;
+            } else {
+            return confirm('¿Tienes permiso de tus padres?');
+            }
+            }
+
+            Reescríbela para realizar lo mismo, pero sin if, en una sola linea.
+
+            Haz dos variantes de checkAge:
+
+            Usando un operador de signo de interrogación ?
+            Usando OR ||
+        </p>
+    </div>
+
+    <p id="demo"></p>
+    <input type="number" placeholder="age...." id="input">
+    <button id="btn">Get answer</button>
+
+
+    <script>
+        const txt = document.getElementById("demo");
+        const input = document.getElementById("input");
+        const btn = document.getElementById("btn");
+
+        function checkAge(age) {
+            return age > 18 || confirm('¿Tienes permiso de tus padres?');
+        }
+
+        btn.addEventListener("click", () => {
+            let numero = Number(input.value);
+
+            if (checkAge(numero)) {
+                txt.textContent = "Acceso concedido";
+            } else {
+                txt.textContent = "Acceso denegado";
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -37,4 +37,25 @@ function toCelsius(farenheit) {
 document.getElementById("demo").innerHTML = toCelsius(77);
 
 
+/*
+Una función puede devolver un valor al código de llamada como resultado.
+La directiva return puede estar en cualquier lugar de la función. Cuando la ejecución lo alcanza, la función se detiene y el valor se devuelve al código de llamada (asignado al result anterior).
+*/
+
+function checkAge(age){
+  if(age >= 18){
+    return true
+  }else{
+    return confirm("¿Tienes permiso de tus padres?");
+  }
+}
+
+let age = prompt("¿Cual es tu edad?",18); // Pregunta mas parametros de relleno
+
+
+if(checkAge(age)){
+   alert("Acceso otorgado")
+}else{
+  alert("Acceso denegado")
+}
 
