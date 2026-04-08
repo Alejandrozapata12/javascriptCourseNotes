@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo menu hamburguesa con desestructuración</title>
+</head>
+<body>
+  
+  <h2 id="title_menu"></h2>
+  <div id="container"></div>
+
+
+  <script>
+    const menu = {
+      title: "Menu",
+      items: ["Home", "About", "Contact"],
+      click: true
+    };
+
+    function createMenu({ title, items, click }) {
+      const container = document.getElementById("container");
+      const titleElement = document.getElementById("title_menu");
+
+      titleElement.textContent = title;
+
+      items.forEach(item => {
+        const itemElement = document.createElement("div");
+        itemElement.textContent = item;
+        container.appendChild(itemElement);
+      });
+
+      if (click) {
+        container.addEventListener("click", () => {
+          // Aqui se agrega la logica para manejar el menu hamburguesa, por ejemplo, mostrar u ocultar los items
+          container.classList.toggle("active");
+          // Y creamos el css aqui mismo para mostrar u ocultar los items
+          const style = document.createElement("style");
+          style.textContent = `
+            #container {
+              display: none;
+            }
+            #container.active {
+              display: block;
+            }
+          `; 
+          document.head.appendChild(style);
+        });
+      }
+    }
+
+    createMenu(menu);
+  </script>
+</body>
+</html>
