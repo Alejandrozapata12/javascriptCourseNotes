@@ -161,3 +161,83 @@ renderMenu(menu2); // Esto creará un contenedor de menú con el título "Main M
 
 
 
+// Ahora un ejemplo simulando un post en node.js y express.js
+
+app.post("/users", (req, res) => {
+    const {name, email, password} = req.body; // En este caso, estamos utilizando la sintaxis de desestructuración para extraer las propiedades name, email y password del objeto req.body, que contiene los datos enviados en la solicitud POST.
+    // Aquí puedes realizar operaciones con los datos, como guardarlos en una base de datos o realizar validaciones.
+    res.send(`User ${name} created successfully!`); // Luego, enviamos una respuesta al cliente indicando que el usuario ha sido creado exitosamente.
+});
+
+
+// Ahora otro ejemplo fetch API
+
+const getUser = async (userId) => {
+  try {
+    const response = await fetch(`https://api.example.com/users/${userId}`);
+    const data = await response.json();
+    const { name, email } = data; // En este caso, estamos utilizando la sintaxis de desestructuración para extraer las propiedades name y email del objeto data, que contiene la respuesta de la API después de convertirla a formato JSON.
+    // Imprimir en el frontend el nombre y correo electrónico del usuario asi en una etiqueta <p></p>:
+    const userInfo = document.createElement('p');
+    userInfo.textContent = `Name: ${name}, Email: ${email}`;
+    document.body.appendChild(userInfo); 
+
+} catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
+
+// Ahora nivel pro
+
+const obtenerUsuario = async (id) => {
+  const { name, email, address: { city } } = await fetch(`https://api.example.com/users/${id}`).then(res => res.json()); // En este caso, estamos utilizando la sintaxis de desestructuración anidada para extraer las propiedades name y email del objeto data, así como la propiedad city del objeto address dentro de data. Esto nos permite acceder a estas propiedades de manera más directa y legible.
+  console.log(`Name: ${name}, Email: ${email}, City: ${city}`);
+};
+
+
+// Otro ejemplo iterando un objeto
+
+const users = {
+   Alejandro: 1500,
+   Carlos: 2000
+};
+
+
+for (const [nombre, salario] of Object.entries(users)){
+  console.log(`Nombre: ${nombre}, Salario: ${salario}`); // Nombre: Alejandro, Salario: 1500
+} // En este caso, estamos utilizando la sintaxis de desestructuración para extraer las claves y valores del objeto users. La función Object.entries(users) devuelve un array de pares clave-valor, y al usar la sintaxis de desestructuración dentro del bucle for...of, podemos asignar directamente las claves a la variable nombre y los valores a la variable salario en cada iteración del bucle. Esto hace que el código sea más limpio y fácil de leer.
+
+// Ahora un ejemplo de react, ya que es muy común utilizar la asignación desestructurante en este framework para manejar props y estados.
+
+import React, { useState } from 'react';
+const UserProfile = ({ user }) => { // En este caso, estamos utilizando la sintaxis de desestructuración para extraer la propiedad user de las props que se pasan al componente UserProfile. Esto nos permite acceder directamente a las propiedades del objeto user dentro del componente sin tener que escribir props.user cada vez.
+  const { name, email } = user; // Aquí estamos utilizando la sintaxis de desestructuración para extraer las propiedades name y email del objeto user, lo que nos permite acceder a estas propiedades de manera más directa y legible dentro del componente.
+  const [isEditing, setIsEditing] = useState(false); // Aquí estamos utilizando la sintaxis de desestructuración para extraer el valor isEditing y la función setIsEditing del hook useState. Esto nos permite manejar el estado de edición del perfil de usuario de manera más sencilla dentro del componente.
+  return (
+    <div>
+      <h1>{name}</h1>
+      <p>{email}</p>
+      <button onClick={() => setIsEditing(!isEditing)}>
+        {isEditing ? 'Save' : 'Edit'}
+      </button>
+    </div>
+  );
+}
+
+// Resultado : 
+// <div>
+//   <h1>Alice</h1>
+//   <p>alice@example.com</p>
+//   <button>Edit</button>
+// </div>
+
+
+
+
+
+
+
+
+
+
+

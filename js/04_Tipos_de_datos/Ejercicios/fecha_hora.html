@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fecha y hora</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+  }
+  #fechaActual {
+    font-size: 1.5em;
+    color: #333;
+  }
+
+</style>
+<body>
+
+  <h1>Fecha y hora actual</h1>
+  <p id="fechaActual"></p>
+  
+
+  <script>
+    // Actualizar la fecha y hora cada segundo
+    const imprimir = document.getElementById('fechaActual'); // Obtener el elemento donde se mostrará la fecha y hora
+
+    // Usar setInterval para actualizar la fecha y hora cada segundo
+    setInterval(() => { 
+      const fecha = new Date();
+
+      const formateo = fecha.toLocaleDateString('es-CO', {
+        weekday: 'long', // Día de la semana
+        year: 'numeric', // Año
+        month: 'long', // Mes
+        day: 'numeric' // Día del mes
+      });
+
+      // Mostrar la fecha y hora formateada en el elemento
+      imprimir.textContent = `Fecha actual: ${formateo} - Hora actual: ${fecha.toLocaleTimeString()}`;
+    }, 1000);
+  </script>
+</body>
+</html>
