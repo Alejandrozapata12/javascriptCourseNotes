@@ -94,11 +94,29 @@ myFunc(); // Mozilla
 
 
 
+function makeCountPls(){
+  let count = 0;
+
+  return function(){
+    count++;
+    return count
+  };
+}
+
+let countfn = makeCountPls();
+
+console.log(countfn()); // 1
+console.log(countfn()); // 2
+console.log(countfn()); // 3
 
 
-
-
-
+/*
+¿Qué está pasando aquí?
+makeCounter() se ejecuta y crea la variable count = 0.
+Devuelve una función anónima que tiene acceso a count.
+Aunque makeCounter ya terminó, la función devuelta sigue recordando la variable count gracias al closure.
+Cada vez que llamas a countfn(), incrementa el mismo count. Esto demuestra cómo las funciones pueden "cerrar" sobre su entorno léxico, lo que les permite mantener el estado entre llamadas. Este es un concepto fundamental en JavaScript y se utiliza ampliamente para crear funciones con estado, como contadores, manejadores de eventos, etc.
+*/
 
 
 
