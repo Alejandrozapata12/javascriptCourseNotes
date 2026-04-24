@@ -93,8 +93,48 @@ console.log(persona.nombre); // Ana
 console.log(persona.apellido); // Martínez
 
 
+// EJEMPLO de uso de compatibilidad
+
+function PersonalData(name, birthday){ // Función constructora
+  this.name = name;
+  this.birthday = birthday; 
+
+  Object.defineProperty(this, "age",{ // Definimos la propiedad age utilizando Object.defineProperty() con un getter que calcula la edad de la persona en función de su fecha de nacimiento.
+    get (){
+      let todayYear = new Date().getFullYear();
+      return todayYear - this.birthday.getFullYear();
+    }
+  })
+}
+
+// Objeto de esa función constructora
+let persona1 = new PersonalData("Laura", new Date(1990, 5, 15));
+
+console.log(persona1.name); // Laura
+console.log(persona1.birthday); // Thursday April 23 2001 00:00:00 GMT+0200 (Central European Summer Time)
+console.log(persona1.age); // Hoy tiene 34 (dependiendo del año actual)
 
 
+// Ahora un ejemplo en combinación con html, donde se muestra el uso de getters y setters para actualizar el contenido de una página web.
+
+const user = {
+  firstName: "John",
+  lastName: "Doe",
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  },
+  set fullName(value) {
+    const parts = value.split(" ");
+    this.firstName = parts[0];
+    this.lastName = parts[1];
+    document.getElementById("userName").textContent = this.fullName; // Actualiza el contenido del elemento con id "userName" cada vez que se establece un nuevo valor para fullName.
+  }
+};
+
+// Supongamos que en el HTML tenemos un elemento con id "userName" para mostrar el nombre completo del usuario.
+document.getElementById("userName").textContent = user.fullName; // Muestra "John Doe"
+// Luego, al establecer un nuevo valor para fullName, se actualizará automáticamente el contenido del elemento en la página web.
+user.fullName = "Jane Smith"; // El contenido del elemento con id "userName" se actualizará a "Jane Smith"
 
 
 
