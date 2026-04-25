@@ -21,6 +21,7 @@ function createCart() {
     }
   });
 
+  
   // 🔥 getter → cantidad
   Object.defineProperty(cart, "count", {
     get() {

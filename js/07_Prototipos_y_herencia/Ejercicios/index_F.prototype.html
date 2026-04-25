@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #000;
+    }
+
+    input{
+      margin: 10px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    button{
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+
+    .container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 12px;
+  
+    }
+
+  </style>
+</head>
+<body>
+  
+   <div class="container">
+   <input type="text" name="nombre" id="nombre_rol"> 
+   <input type="text" name="rol" id="rol"> 
+    <button id="btn">Mostrar</button> 
+    <p id="demo" style="background-color: chocolate; width: 200px; height: 100px; display: flex; align-items: center; justify-content: center; color: #f9f9f9; text-align: center;"></p>
+    </div>
+
+ 
+
+  <script>
+
+  const nombreInput = document.querySelector('#nombre_rol');
+  const rolInput = document.querySelector('#rol');
+  const btn = document.querySelector('#btn');
+  const demo = document.querySelector('#demo');
+
+  function NuevoUsuario(nombre, rol) {
+    this.nombre = nombre;
+    this.rol = rol;
+  }
+
+  NuevoUsuario.prototype.mostrarInfo = function() {
+    return `Nombre: ${this.nombre}, Rol: ${this.rol}`;
+  };
+
+  NuevoUsuario.prototype.isAdmin = function() {
+    return this.rol.toLowerCase() === 'admin';
+  };
+
+  btn.addEventListener('click', function() {
+  const nombre = nombreInput.value.trim();
+  const rol = rolInput.value.trim();
+
+  if (!nombre || !rol) {
+    demo.textContent = "Completa los campos";
+    return;
+  }
+
+  const usuario = new NuevoUsuario(nombre, rol);
+
+  let mensaje = usuario.mostrarInfo();
+
+  if (usuario.isAdmin()) {
+    mensaje += " (Administrador)";
+  }
+
+  demo.textContent = mensaje;
+
+  nombreInput.value = "";
+  rolInput.value = "";
+});
+
+  </script>
+
+</body>
+</html>
