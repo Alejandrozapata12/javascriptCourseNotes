@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Promises Demo</title>
+
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial;
+    }
+
+    .box {
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      width: 300px;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+
+    .success { background: green; }
+    .error { background: crimson; }
+    .loading { background: orange; }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h3>Obtener Usuario</h3>
+    <button id="btn">Cargar usuario</button>
+    <p id="output" class="result"></p>
+  </div>
+
+  <script>
+    const btn = document.getElementById("btn");
+    const output = document.getElementById("output");
+
+    // 🔥 Simulación de API con Promise
+    function obtenerUsuario() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const exito = Math.random() > 0.5;
+
+          if (exito) {
+            resolve({ nombre: "Alejandro", edad: 25 });
+          } else {
+            reject("Error al obtener usuario");
+          }
+        }, 3000);
+      });
+    }
+
+    // 🔥 Evento
+    btn.addEventListener("click", () => {
+
+      // estado loading
+      output.textContent = "Cargando...";
+      output.className = "result loading";
+
+      obtenerUsuario()
+        .then(user => {
+          output.textContent = `✔ ${user.nombre} (${user.edad})`;
+          output.className = "result success";
+        })
+        .catch(err => {
+          output.textContent = "❌ " + err;
+          output.className = "result error";
+        })
+        .finally(() => {
+          console.log("Proceso terminado");
+        });
+
+    });
+  </script>
+
+</body>
+</html>

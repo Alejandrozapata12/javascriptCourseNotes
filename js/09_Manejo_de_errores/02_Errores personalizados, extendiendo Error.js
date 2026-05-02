@@ -43,9 +43,57 @@ try {
 }
 
 
+// ====== Herencia adicional ======
+
+/*
+La clase ValidationError es demasiado genérica. Son muchas las cosas que pueden salir mal. La propiedad podría estar ausente, o puede estar en un formato incorrecto (como un valor de cadena para age en lugar de un número). Hagamos una clase más concreta PropertyRequiredError específicamente para propiedades ausentes. Esta clase llevará información adicional sobre la propiedad que falta.
+*/
+
+class ValidationError extends Error {
+    constructor (message){
+        super(message);
+        this.name = "ValidationError";
+    }
+}
+
+class PropertyRequiredError extends ValidationError {
+    constructor(property) {
+    super("Sin propiedad: " + property);
+    this.name = "PropertyRequiredError";
+    this.property = property;
+  }
+}
 
 
+// Uso
+function readUser(json) {
+  let user = JSON.parse(json);
 
+  if (!user.age) {
+    throw new PropertyRequiredError("age");
+  }
+  if (!user.name) {
+    throw new PropertyRequiredError("name");
+  }
+
+  return user;
+}
+
+// Ejemplo de trabajo con try..catch
+
+try {
+  let user = readUser('{ "age": 25 }');
+} catch (err) {
+  if (err instanceof ValidationError) {
+    alert("Dato inválido: " + err.message); // Dato inválido: Sin propiedad: name
+    alert(err.name); // PropertyRequiredError
+    alert(err.property); // name
+  } else if (err instanceof SyntaxError) {
+    alert("Error de sintaxis JSON: " + err.message);
+  } else {
+    throw err; // error desconocido, vuelva a lanzarlo
+  }
+}
 
 
 
