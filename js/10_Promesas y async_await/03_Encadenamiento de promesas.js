@@ -5,6 +5,15 @@ cada .then():
 recibe el resultado anterior
 devuelve una nueva promesa
 Eso permite seguir encadenando
+
+
+Volvamos al problema mencionado en el capítulo Introducción: callbacks: tenemos una secuencia de tareas asincrónicas que deben realizarse una tras otra, por ejemplo, cargar scripts. ¿Cómo podemos codificarlo correctamente?
+
+Las promesas proporcionan un par de maneras para hacerlo.
+
+En este capítulo cubrimos el encadenamiento de promesas.
+
+Cada .then() devuelve otra promesa.
 */
 
 new Promise((resolve) => {
@@ -95,9 +104,38 @@ btn.addEventListener("click", () => {
 
 */
 
+new Promise (function (resolve, reject){
+  setTimeout(() => resolve(1),2000);
+})
+.then (function(solucion){
+   console.log(solucion); // 1
+   return solucion * 2; 
+})
+.then (function(solucion){
+   console.log(solucion); // 2
+   return solucion * 2; 
+})
+.then (function(solucion){
+   console.log(solucion); // 4
+   return solucion * 2; 
+})
+
+/*
+Aquí el flujo es:
+
+La promesa inicial se resuelve en 1 segundo (*),
+Entonces se llama el manejador .then (**), que a su vez crea una nueva promesa (resuelta con el valor 2).
+El siguiente .then (***) obtiene el resultado del anterior, lo procesa (duplica) y lo pasa al siguiente manejador.
+…y así sucesivamente.
+A medida que el resultado se pasa a lo largo de la cadena de controladores, podemos ver una secuencia de llamadas de alerta: 1 → 2 → 4.
+
+*/
+
+/*
+Si un controlador .then (o catch/finally, no importa) devuelve una promesa, el resto de la cadena espera hasta que ésta quede establecida (sea resuelta o rechazada). Cuando lo hace, su resultado (o error) pasa más allá.
 
 
-
+ */
 
 
 

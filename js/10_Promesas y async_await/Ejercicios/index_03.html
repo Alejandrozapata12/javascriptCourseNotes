@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Encadenamiento de promesas</title>
+    <style>
+        body{
+            background-color: darkslategrey;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        button{
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            background-color: darkslateblue;
+            color: #fff;
+        }
+
+        button:hover{
+            background-color: darkseagreen;
+
+        }
+    </style>
+</head>
+<body>
+      
+ <button onclick="cargarDatos()">Cargar data</button>
+ <p id="answer"></p>
+
+ <script>
+  
+  const p = document.getElementById("answer");
+
+  function obtenerDatos(){
+    return new Promise((resolve, reject) =>{
+        setTimeout(()=>{
+            resolve(" ✔ Data completada....");
+        },2000);
+    })
+  }
+
+  function cargarDatos(){
+     obtenerDatos()
+     .then(datos => {
+        p.textContent = datos;
+     })
+     .catch (error => {
+        p.textContent = error;
+     })
+  }
+
+
+
+ </script>
+</body>
+</html>
