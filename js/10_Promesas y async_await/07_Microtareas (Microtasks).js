@@ -86,7 +86,51 @@ C        ← Segundo .then() (se agregó después de que B se ejecutó)
 Cada .then() se agrega a la cola después de que el anterior termina, por eso se ejecutan en orden.
 */
 
+// ============== Macrotasks y Microtasks ==============
+
+// Las macrotasks avarcan funciones como  (setTimeout(), setInterval(), DOM y setImmediate());
+
+// ============== Macrotasks  ==============
+
+setTimeout(() => console.log("timeout 1"), 0); // espera 0ms
+setInterval(() => console.log("interval 1"), 1000); // se ejecuta cada 1000ms
+//eventos del DOM
+document.addEventListener("click", () => console.log("click 1"));
+
+setImmediate(() => console.log("immediate 1")); 
+// se ejecuta después de la fase actual del Event Loop
 
 
 
+// Las microtasks (es la cola prioritaria) se generan principalmente por las promesas (.then(), .catch() y .finally(),queueMicrotask())
+
+// ============== Microtasks ==============
+
+Promise.resolve().then(() => console.log("promise 1"));
+Promise.resolve().then(() => console.log("promise 2"));
+queueMicrotask(() => console.log("queueMicrotask 1"));
+
+
+// ========== Ejemplo ==========
+
+console.log("1.Inicio"); // Sincrono
+
+setTimeout(()=> {
+  console.log("Timeout"); // Macrotask
+},100);
+
+Promise.resolve().then(()=>{ //  Microtask
+  console.log("Microtask");
+})
+
+console.log("2. Final"); // Sincrono
+
+/*
+El orden de ejecución seria: 
+
+1.Inicio
+2.Fin
+3. Microtask (promesa)
+4. Timeout 
+*/
 

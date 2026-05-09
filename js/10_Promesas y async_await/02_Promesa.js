@@ -19,9 +19,9 @@ const promesa = new Promise((resolve, reject) => {
 
 // 2. EJEMPLO SIMPLE
 const promesa = new Promise((resolve, reject) => {
-  setTimeout(()=>{
+  setTimeout(() => {
     resolve("Todo salio muy bien");
-  },2000);
+  }, 2000);
 })
 
 // 3. CONSUMIR PROMESA
@@ -52,15 +52,15 @@ promesa
 
 // ============ EJEMPLO REAL (tipo API) ============
 
-function obtenerUsuario (){
-  return new Promise ((resolve, reject) => {
-    setTimeout(()=>{
-      const user = {nombre: "Alejandro"};
+function obtenerUsuario() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const user = { nombre: "Alejandro" };
     }, 2000);
 
-    if(user){
+    if (user) {
       resolve(user);
-    }else {
+    } else {
       reject("No hay usuario");
     }
 
@@ -68,8 +68,8 @@ function obtenerUsuario (){
 }
 
 obtenerUsuario()
-.then(user => console.log(user.nombre))
-.catch(err => console.log(err))
+  .then(user => console.log(user.nombre))
+  .catch(err => console.log(err))
 
 
 
@@ -84,8 +84,8 @@ La sintaxis es:
  */
 
 promise.then(
-  function(result) { /* manejar un resultado exitoso */ },
-  function(error) { /* manejar un error */ }
+  function (result) { /* manejar un resultado exitoso */ },
+  function (error) { /* manejar un error */ }
 );
 
 /*
@@ -97,7 +97,7 @@ Por ejemplo, aquí hay una reacción a una promesa resuelta con éxito:
 
 */
 
-let promise = new Promise(function(resolve, reject) {
+let promise = new Promise(function (resolve, reject) {
   setTimeout(() => resolve("hecho!"), 1000);
 });
 
@@ -120,6 +120,73 @@ let promise = new Promise((resolve, reject) => {
 // .catch(f) es lo mismo que promise.then(null, f)
 promise.catch(alert); // muestra "Error: ¡Vaya!" después de 1 segundo
 
+
+
+// ========= Estructura de promesa =========
+
+// Creación de la promesa
+const miPromesa = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const exito = true;
+    if (exito) {
+      resolve("La promesa se cumplio");
+    } else {
+      reject("La promesa fallo");
+    }
+  }, 2000);
+})
+
+console.log(miPromesa); // Esta operación imprime <pending> 
+
+// Los estados de las promesas son inmutables
+
+const promesaResuelta = new Promise((resolve, reject) => {
+  resolve("primer valor");
+  resolve("segundo valor"); // Ignorado — ya estaba fulfilled
+  reject(new Error("error")); // Ignorado — ya estaba fulfilled
+});
+
+//promesaResuelta.then(valor => console.log(valor)); // "primer valor"
+
+// Consumir valores de una promesa con .then() y a
+function obtenerNombre(data) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (data) {
+        reject(new Error("Algo salió mal"));
+      } else {
+        resolve("María");
+      }
+    }, 500);
+  });
+}
+
+// Cambia true por false para ver el otro comportamiento
+obtenerNombre(false)
+  .then(nombre => {
+    console.log("Hola,", nombre);
+  })
+  .catch(error => {
+    console.error("Error:", error.message);
+  });
+
+
+// Ejemplo de una promesa consultado la API de Colombia
+
+// Aplicación real, llamando API Colombia
+
+fetch("https://api-colombia.com/api/v1/Department")
+  .then((res) => res.json())
+  .then((departments) => {
+    console.log("Primer departamento:", departments[0].name);
+
+    departments.forEach((dep) => {
+      console.log(`${dep.name}: ${dep.population}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Error consultando API Colombia:", error);
+  });
 
 
 
