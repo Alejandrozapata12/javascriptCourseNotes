@@ -95,15 +95,10 @@ Mantener consistencia (siempre devolver promesas)
 Promise.resolve("Hola")
   .then(data => console.log(data));
 
-
   // ================ Promise.reject()  =>  Crear error manualmente  ================
 
 Promise.reject("Error")
   .catch(err => console.log(err));
-
-
-
-
 
   // Ejemplo: 
 
@@ -136,9 +131,6 @@ Promise.reject(error) – crea una promesa rechazada con el “error” dado.
 Promise.all es probablemente el más común en la práctica.
   
   */
-
-
-
 
 // EJEMPLO REAL: 
 

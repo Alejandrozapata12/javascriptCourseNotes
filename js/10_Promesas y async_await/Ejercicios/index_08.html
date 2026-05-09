@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Async/Await | AlejoDev</title>
+    <meta name="description" content="Práctica de async/await para el portfolio AlejoDev">
+
+    <style>
+        /* ===== VARIABLES CORPORATIVAS ===== */
+        :root {
+            --color-bg: #f8f9fa;
+            --color-bg-alt: #ffffff;
+            --color-text: #1a1a1a;
+            --color-text-muted: #666666;
+            --color-primary: #000000;
+            --color-secondary: #FFD700; /* Amarillo corporativo */
+            --color-error: #dc3545;
+            --color-success: #28a745;
+            --color-border: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.2);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* ===== RESET Y BASE ===== */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--color-bg) 0%, #e9ecef 100%);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--color-bg-alt);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #333 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 .highlight {
+            color: var(--color-secondary);
+            font-weight: 800;
+        }
+
+        /* ===== SECCIONES DE CONTENIDO ===== */
+        .content {
+            padding: 2rem;
+        }
+
+        .card {
+            background: var(--color-bg-alt);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title::before {
+            content: '🎯';
+            font-size: 1.2rem;
+        }
+
+        .scenario,
+        .mission {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .mission {
+            border-left: 3px solid var(--color-secondary);
+            padding-left: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* ===== CÓDIGO ===== */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #333;
+        }
+
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .function { color: #dcdcaa; }
+        .code-block .comment { color: #6a9955; }
+
+        /* ===== BOTONES DE PRUEBA ===== */
+        .test-section {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--radius);
+            margin: 1.5rem 0;
+        }
+
+        .test-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-primary);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .btn {
+            background: var(--color-primary);
+            color: white;
+            border: 2px solid var(--color-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            color: var(--color-primary);
+            border-color: var(--color-secondary);
+        }
+
+        .btn.secondary:hover {
+            background: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        .btn.error {
+            border-color: var(--color-error);
+            color: var(--color-error);
+        }
+
+        .btn.error:hover {
+            background: var(--color-error);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== RESULTADOS ===== */
+        #results {
+            min-height: 100px;
+            padding: 1rem;
+        }
+
+        .result-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-item.success {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--color-success);
+            color: #155724;
+        }
+
+        .result-item.error {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid var(--color-error);
+            color: #721c24;
+        }
+
+        .result-item .icon {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* ===== LOADING ===== */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            color: var(--color-text-muted);
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--color-border);
+            border-top-color: var(--color-secondary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--color-primary);
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .content {
+                padding: 1.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+        }
+
+        /* ===== UTILIDADES ===== */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 1rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .hidden { display: none; }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <h1>Ejercicio <span class="highlight">Async</span>/<span class="highlight">await</span></h1>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+            
+            <!-- Escenario -->
+            <section class="card">
+                <h2 class="card-title">Escenario</h2>
+                <p class="scenario">
+                    Tu portfolio <strong>AlejoDev</strong> necesita cargar la información de un proyecto 
+                    desde un archivo JSON simulado.
+                </p>
+                
+                <p class="mission mt-1">
+                    <strong>✍️ Tu misión:</strong> Crear una función <code>async</code> llamada 
+                    <code>getProjectInfo</code> que:<br>
+                    1️⃣ Reciba un <code>projectId</code><br>
+                    2️⃣ Use <code>await</code> para obtener datos<br>
+                    3️⃣ Maneje errores con <code>try/catch</code><br>
+                    4️⃣ Retorne el proyecto o <code>null</code> si falla
+                </p>
+            </section>
+
+            <!-- Código Helper -->
+            <section class="card">
+                <h2 class="card-title">Función Helper (API simulada)</h2>
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">fetchProjectData</span>(projectId) {
+  <span class="keyword">return</span> <span class="keyword">new</span> Promise((resolve, reject) => {
+    setTimeout(() => {
+      <span class="keyword">const</span> projects = {
+        <span class="string">'inventrack'</span>: { 
+          name: <span class="string">'Inventrack'</span>, 
+          tech: [<span class="string">'HTML'</span>, <span class="string">'CSS'</span>, <span class="string">'JS'</span>], 
+          status: <span class="string">'completed'</span> 
+        },
+        <span class="string">'alejo-dev'</span>: { 
+          name: <span class="string">'AlejoDev Portfolio'</span>, 
+          tech: [<span class="string">'JS'</span>, <span class="string">'Vercel'</span>], 
+          status: <span class="string">'in-progress'</span> 
+        }
+      };
+      <span class="keyword">if</span> (projects[projectId]) {
+        resolve(projects[projectId]);
+      } <span class="keyword">else</span> {
+        reject(<span class="keyword">new</span> Error(<span class="string">'Proyecto no encontrado'</span>));
+      }
+    }, <span class="number">2000</span>);
+  });
+}
+                </div>
+            </section>
+
+            <!-- Botones de prueba -->
+            <section class="test-section">
+                <p class="test-title">🧪 Prueba la función con diferentes proyectos:</p>
+                <div class="btn-group">
+                    <button class="btn" onclick="testProject('inventrack')">
+                        📦 Inventrack
+                    </button>
+                    <button class="btn secondary" onclick="testProject('alejo-dev')">
+                        🎨 AlejoDev Portfolio
+                    </button>
+                    <button class="btn error" onclick="testProject('proyecto-falso')">
+                        ❌ Proyecto inexistente
+                    </button>
+                </div>
+            </section>
+
+            <!-- Loading -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Cargando datos del proyecto...</p>
+            </div>
+
+            <!-- Resultados -->
+            <section class="card">
+                <h2 class="card-title">Resultados</h2>
+                <div id="results">
+                    <p class="text-center" style="color: var(--color-text-muted);">
+                        👆 Haz clic en un botón para comenzar
+                    </p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>
+                Ejercicio de práctica para <a href="#" target="_blank">AlejoDev Portfolio</a> 
+                | 🚀 Dominando async/await
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // ===== FUNCIÓN HELPER (API SIMULADA) =====
+        function fetchProjectData(projectId) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const projects = {
+                        'inventrack': { 
+                            name: 'Inventrack', 
+                            tech: ['HTML', 'CSS', 'JS'], 
+                            status: 'completed',
+                            demoUrl: '#',
+                            githubUrl: '#'
+                        },
+                        'alejo-dev': { 
+                            name: 'AlejoDev Portfolio', 
+                            tech: ['JavaScript', 'CSS3', 'Vercel'], 
+                            status: 'in-progress',
+                            demoUrl: '#',
+                            githubUrl: '#'
+                        }
+                    };
+                    
+                    if (projects[projectId]) {
+                        resolve(projects[projectId]);
+                    } else {
+                        reject(new Error(`Proyecto "${projectId}" no encontrado`));
+                    }
+                }, 2000); // 2 segundos de delay simulado
+            });
+        }
+
+        // ===== FUNCIÓN PRINCIPAL: getProjectInfo =====
+        async function getProjectInfo(projectId) {
+            try {
+                // ⏳ Esperamos la respuesta de la "API"
+                const project = await fetchProjectData(projectId);
+                
+                // ✅ Éxito: retornamos los datos
+                return { success: true, data: project };
+                
+            } catch (error) {
+                // ❌ Error: retornamos información del fallo
+                return { success: false, error: error.message };
+            }
+        }
+
+        // ===== FUNCIÓN DE UI: mostrar resultado =====
+        function renderResult(result, projectId) {
+            const resultsContainer = document.getElementById('results');
+            
+            const resultItem = document.createElement('div');
+            resultItem.className = `result-item ${result.success ? 'success' : 'error'}`;
+            
+            if (result.success) {
+                const { name, tech, status } = result.data;
+                resultItem.innerHTML = `
+                    <span class="icon">✅</span>
+                    <div>
+                        <strong>${name}</strong><br>
+                        <small>
+                            🛠️ ${tech.join(' • ')} | 
+                            📊 Estado: ${status === 'completed' ? '✅ Completado' : '🔄 En progreso'}
+                        </small>
+                    </div>
+                `;
+            } else {
+                resultItem.innerHTML = `
+                    <span class="icon">❌</span>
+                    <div>
+                        <strong>Error al cargar</strong><br>
+                        <small>${result.error}</small>
+                    </div>
+                `;
+            }
+            
+            resultsContainer.appendChild(resultItem);
+            
+            // Auto-scroll al nuevo resultado
+            resultItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ===== FUNCIÓN DE PRUEBA: orquesta todo =====
+        async function testProject(projectId) {
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            
+            // Mostrar loading y limpiar resultados previos si es la primera prueba
+            loading.classList.add('active');
+            
+            // Deshabilitar botones temporalmente
+            document.querySelectorAll('.btn').forEach(btn => btn.disabled = true);
+            
+            try {
+                // 🔄 Ejecutar la función async
+                const result = await getProjectInfo(projectId);
+                
+                // 🎨 Renderizar resultado
+                renderResult(result, projectId);
+                
+            } catch (error) {
+                // Manejo de errores inesperados
+                console.error('Error inesperado:', error);
+                renderResult({ success: false, error: 'Error inesperado en la aplicación' }, projectId);
+                
+            } finally {
+                // ✅ Siempre: ocultar loading y reactivar botones
+                loading.classList.remove('active');
+                document.querySelectorAll('.btn').forEach(btn => btn.disabled = false);
+            }
+        }
+
+        // ===== INICIALIZACIÓN: mensaje de bienvenida =====
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Ejercicio Async/Await listo para AlejoDev');
+            console.log('💡 Tip: Abre la consola (F12) para ver logs adicionales');
+        });
+    </script>
+</body>
+</html>
