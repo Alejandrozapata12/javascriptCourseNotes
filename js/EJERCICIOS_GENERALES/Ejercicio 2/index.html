@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header>
+        <h1 class="logo">AuthCore</h1>
+        <div class="cont_itm">
+        <a href="#" class="item">Security</a>
+        <a href="#" class="item">Help</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="login_container">
+            <h2 class="title_logic">Welcome Back</h2>
+            <h3 class="subtitle">Please enter your details to sign in</h3>
+
+            <form action="#">
+                <label for="emal">Email Address</label>
+                <input type="text" name="email" id="email_inp" placeholder="name@company.com">
+
+                <div class="password_cont">
+                    <a href="#" class="forgot">Forgot password?</a>
+                    <label for="pass">Password</label>
+                    <input type="password" name="pass" id="pass_inp" placeholder="************">
+                </div>
+
+                <div class="remeber_cont">
+                <input type="checkbox" name="remember" id="check_rem">
+                 <h2 class="title_rem">Remeber me for 30 days</h2>
+            </div>
+            </form>
+
+            <button type="submit">Sign in</button>
+        </div>
+    </main>
+
+    <script src="logic.js"></script>
+</body>
+
+</html>
