@@ -7,41 +7,60 @@
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
+ 
 <body>
 
     <header>
         <h1 class="logo">AuthCore</h1>
         <div class="cont_itm">
-        <a href="#" class="item">Security</a>
-        <a href="#" class="item">Help</a>
+            <a href="#" class="item">Security</a>
+            <a href="#" class="item">Help</a>
         </div>
     </header>
 
     <main>
-        <div class="login_container">
+        <div id="login_container">
             <h2 class="title_logic">Welcome Back</h2>
-            <h3 class="subtitle">Please enter your details to sign in</h3>
+            <h3 class="subtitle">Please enter your details to sign in.</h3>
 
             <form action="#">
-                <label for="emal">Email Address</label>
-                <input type="text" name="email" id="email_inp" placeholder="name@company.com">
+                <label for="emal" class="email">Email Address:</label>
+                <input type="text" name="email" id="email_inp" placeholder="name@company.com" autocomplete="off">
 
                 <div class="password_cont">
-                    <a href="#" class="forgot">Forgot password?</a>
-                    <label for="pass">Password</label>
+                    <div class="forgot_di">
+                       <a href="#" class="forgot">Forgot password?</a>
+                    </div>
+                    <label for="pass" class="label_pass">Password:</label>
                     <input type="password" name="pass" id="pass_inp" placeholder="************">
                 </div>
 
                 <div class="remeber_cont">
-                <input type="checkbox" name="remember" id="check_rem">
-                 <h2 class="title_rem">Remeber me for 30 days</h2>
-            </div>
+                    <input type="checkbox" name="remember" id="check_rem">
+                    <h2 class="title_rem">Remember me for 30 days</h2>
+                </div>
             </form>
 
-            <button type="submit">Sign in</button>
+            <button type="submit" id="btn">Sign in</button>
+
+            <span id="mensaje"></span>
         </div>
     </main>
+
+    <footer>
+        <div class="con_terms_foot">
+        <a href="#" class="item">Privacy Policy</a>
+        <a href="#" class="item">Terms of service</a>
+        <a href="#" class="item">Help Center</a>
+        </div>
+        <div class="signUp">
+            <span id="dont">Don't have an account?</span>
+            <a href="#" id="up">Sign Up for free</a>
+        </div>
+        <div class="reserv">
+            <span id="reserve">© 2026 AuthCore Inc.</span>
+        </div>
+    </footer>
 
     <script src="logic.js"></script>
 </body>
