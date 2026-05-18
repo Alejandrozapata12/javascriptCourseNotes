@@ -1,226 +1,486 @@
-* {
+*{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --background: #EFF1F3;
-    --backform: #FFFFFF;
-    --neutral: #f8fafc;
+:root{
+    --background: #f5f7fa;
+    --backform: #ffffff;
+    --neutral: #ffffff;
     --text: #000000;
-    --items: #8E9193;
-    --logo: #191C1E;
+    --items: #6b7280;
+    --logo: #111827;
 }
 
-body {
-    background-color: var(--background);
-}
+/* =========================
+   GLOBAL STYLES
+========================= */
 
-/*Header styles*/
-header {
+body{
+    min-height: 100vh;
+
     display: flex;
-    flex-flow: row wrap;
-    align-items: center;
+    flex-direction: column;
+
+    background: linear-gradient(
+        135deg,
+        #f8fafc,
+        #eef2f7,
+        #e2e8f0
+    );
+
+    font-family: "Inter", sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 2rem;
+
     background-color: var(--neutral);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    padding: 0.8rem;
-
-    .logo {
-        color: var(--logo);
-        font-size: 1.6rem;
-    }
-
-    .cont_itm {
-        display: flex;
-        flex-direction: row;
-        gap: 0.9rem;
-        margin-right: 0.7rem;
-
-        a {
-            text-decoration: none;
-            color: var(--items);
-        }
-    }
 }
 
-/*Main styles*/
-
-main {
-    width: 500px;
-    margin: 0 auto;
-    font-family: Arial, Helvetica, sans-serif;
-
-    #login_container {
-        margin-top: 1.6rem;
-        padding: 2rem;
-        background-color: var(--backform);
-        border: none;
-        border-radius: 11px;
-
-        .title_logic {
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .subtitle {
-            color: var(--items);
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        form {
-            width: 100%;
-            display: flex;
-            flex-flow: column wrap;
-
-            .email {
-                color: var(--text);
-                margin-bottom: 0.5rem;
-                font-weight: bold;
-            }
-
-            #email_inp {
-                border: 1px solid var(--items);
-                border-radius: 9px;
-                padding: 1rem;
-                margin-bottom: 8px;
-            }
-
-            #email_inp:focus {
-                outline: none;
-            }
-
-            .password_cont {
-                display: flex;
-                flex-flow: column wrap;
-                justify-content: center;
-
-                .forgot_di {
-                    display: flex;
-                    justify-content: flex-end;
-
-                    .forgot {
-                        text-decoration: none;
-                        color: gray;
-                        padding-top: 0.5rem;
-                        font-size: 12px;
-                    }
-
-                    .forgot:hover {
-                        text-decoration: underline;
-                    }
-                }
-
-                .label_pass {
-                    color: var(--text);
-                    margin-bottom: 0.5rem;
-                    font-weight: bold;
-                }
-
-                #pass_inp {
-                    border: 1px solid var(--items);
-                    border-radius: 9px;
-                    padding: 1rem;
-                    margin-bottom: 8px;
-                }
-
-                #pass_inp:focus {
-                    outline: none;
-                }
-            }
-
-            .remeber_cont {
-                display: flex;
-                flex-flow: row wrap;
-                gap: 0.5rem;
-                padding: 2px;
-
-                .title_rem {
-                    color: gray;
-                    font-size: 12px;
-                }
-            }
-
-        }
-
-        #btn {
-            border: none;
-            border-radius: 11px;
-            padding: 1rem;
-            margin-top: 1rem;
-            background-color: #000000;
-            color: white;
-            font-weight: bold;
-            width: 100%;
-            cursor: pointer;
-            transition: all 500ms ease;
-        }
-
-        #btn:hover {
-            transform: scale(1.1);
-        }
-    }
+header .logo{
+    color: var(--logo);
+    font-size: 1.6rem;
 }
 
-/*Footer styles*/
-
-footer{
-    position: fixed;
-    top: 93%;
+header .cont_itm{
     display: flex;
-    flex-flow: row wrap;
-    gap: 13rem;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: var(--neutral);
+    gap: 1rem;
+}
+
+header .cont_itm a{
+    text-decoration: none;
+    color: var(--items);
+
+    transition: .3s;
+}
+
+header .cont_itm a:hover{
+    text-decoration: underline;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    flex: 1;
+
     width: 100%;
-    height: 100%;
+    max-width: 500px;
+
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* =========================
+   LOGIN CONTAINER
+========================= */
+
+#login_container{
+    margin-top: 1rem;
+
+    padding: 2rem;
+
+    background-color: var(--backform);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.05),
+        0 2px 10px rgba(0,0,0,.04);
+}
+
+#login_container .title_logic{
+    text-align: center;
+    margin-bottom: .7rem;
+}
+
+#login_container .subtitle{
+    text-align: center;
+
+    color: var(--items);
+
+    font-size: 14px;
+
+    margin-bottom: 2rem;
+}
+
+/* =========================
+   FORM
+========================= */
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+form .email,
+form .label_pass{
+    color: var(--text);
+
+    font-weight: 600;
+
+    margin-bottom: .5rem;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+#email_inp,
+#pass_inp{
+    width: 100%;
+
     padding: 1rem;
 
-    .con_terms_foot{
-        display: flex;
-        gap: 1rem;
-        .item{
-            text-decoration: none;
-            color: gray;
-        }
-        .item:hover{
-            text-decoration: underline;
-        }
-    }
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
 
-    .signUp{
-        #dont{
-            color: gray;
-        }
+    outline: none;
 
-        #up{
-            text-decoration: none;
-            color: #000000;
-            font-weight: bold;
-        }
+    margin-bottom: .8rem;
 
-        #up:hover{
-            text-decoration: underline;
-        }
-    }
-
-    .reserv{
-        #reserve{
-            margin-left: 4.2rem;
-            color: #000000;
-            font-weight: 700;
-        }
-    }
+    transition: .3s ease;
 }
 
+#email_inp:focus,
+#pass_inp:focus{
+    border-color: #000;
 
+    box-shadow:
+        0 0 0 4px rgba(0,0,0,.12),
+        0 4px 12px rgba(0,0,0,.10);
 
+    transform: translateY(-2px);
+}
 
+/* =========================
+   PASSWORD AREA
+========================= */
 
+.password_cont{
+    display: flex;
+    flex-direction: column;
+}
 
+.forgot_di{
+    display: flex;
+    justify-content: flex-end;
 
+    margin-bottom: .5rem;
+}
 
+.forgot{
+    text-decoration: none;
 
+    color: var(--items);
+
+    font-size: 13px;
+}
+
+.forgot:hover{
+    text-decoration: underline;
+}
+
+/* =========================
+   REMEMBER ME
+========================= */
+
+.remeber_cont{
+    display: flex;
+    align-items: center;
+
+    gap: .5rem;
+
+    margin-top: .3rem;
+}
+
+.remeber_cont .title_rem{
+    font-size: 13px;
+    color: var(--items);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+#btn{
+    width: 100%;
+
+    margin-top: 1.5rem;
+
+    padding: 1rem;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #000;
+
+    color: #fff;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s ease;
+}
+
+#btn:hover{
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.15);
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+#mensaje{
+    display: block;
+
+    margin-top: 1rem;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 1rem;
+
+    padding: 1rem 2rem;
+
+    background-color: var(--neutral);
+}
+
+.con_terms_foot{
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.con_terms_foot .item{
+    text-decoration: none;
+    color: var(--items);
+
+    font-size: 14px;
+}
+
+.con_terms_foot .item:hover{
+    text-decoration: underline;
+}
+
+.signUp #dont{
+    color: var(--items);
+}
+
+.signUp #up{
+    text-decoration: none;
+
+    color: #000;
+
+    font-weight: 700;
+}
+
+.signUp #up:hover{
+    text-decoration: underline;
+}
+
+.reserv #reserve{
+    color: #000;
+    font-weight: 700;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,.6);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 1000;
+}
+
+/* =========================
+   MODAL CONTENT
+========================= */
+
+.modal-content{
+    width: 90%;
+    max-width: 400px;
+
+    padding: 2rem;
+
+    background: #fff;
+
+    border-radius: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+
+    position: relative;
+
+    animation: modalAnimation .3s ease;
+}
+
+.modal-content h2{
+    text-align: center;
+}
+
+.modal-content input{
+    padding: .9rem;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    outline: none;
+
+    transition: .3s;
+}
+
+.modal-content input:focus{
+    border-color: #000;
+
+    box-shadow:
+        0 0 0 4px rgba(0,0,0,.10);
+}
+
+.modal-content button{
+    padding: 1rem;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #111;
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s ease;
+}
+
+.modal-content button:hover{
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,.15);
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.close{
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #000;
+
+    color: #fff;
+
+    border-radius: 50%;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    transition: .3s ease;
+}
+
+.close:hover{
+    background: #222;
+
+    transform: scale(1.05);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes modalAnimation{
+
+    from{
+        opacity: 0;
+        transform: scale(.8);
+    }
+
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px){
+
+    header{
+        flex-direction: column;
+
+        gap: 1rem;
+
+        text-align: center;
+    }
+
+    footer{
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .con_terms_foot{
+        justify-content: center;
+    }
+
+    #login_container{
+        padding: 1.5rem;
+    }
+
+}

@@ -4,10 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login | AuthCore</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
- 
+
 <body>
 
     <header>
@@ -29,7 +33,7 @@
 
                 <div class="password_cont">
                     <div class="forgot_di">
-                       <a href="#" class="forgot">Forgot password?</a>
+                        <a href="#" class="forgot" id="openForgot">Forgot password?</a>
                     </div>
                     <label for="pass" class="label_pass">Password:</label>
                     <input type="password" name="pass" id="pass_inp" placeholder="************">
@@ -49,9 +53,9 @@
 
     <footer>
         <div class="con_terms_foot">
-        <a href="#" class="item">Privacy Policy</a>
-        <a href="#" class="item">Terms of service</a>
-        <a href="#" class="item">Help Center</a>
+            <a href="#" class="item">Privacy Policy</a>
+            <a href="#" class="item">Terms of service</a>
+            <a href="#" class="item">Help Center</a>
         </div>
         <div class="signUp">
             <span id="dont">Don't have an account?</span>
@@ -61,6 +65,39 @@
             <span id="reserve">© 2026 AuthCore Inc.</span>
         </div>
     </footer>
+
+
+    <!-- SIGN UP MODAL -->
+<div class="modal" id="signupModal">
+    <div class="modal-content">
+
+        <span class="close" id="closeSignUp">&times;</span>
+
+        <h2>Create Account</h2>
+
+        <input type="text" placeholder="Full Name" required>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+
+        <button>Create Account</button>
+
+    </div>
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal" id="forgotModal">
+    <div class="modal-content">
+
+        <span class="close" id="closeForgot">&times;</span>
+
+        <h2>Forgot Password</h2>
+
+        <input type="email" placeholder="Enter your email" required>
+
+        <button type="submit">Send Recovery Link</button>
+
+    </div>
+</div>
 
     <script src="logic.js"></script>
 </body>
