@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Chat Modular</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+
+      font-family: Arial;
+
+      background: #121212;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 100vh;
+    }
+
+    .chat-container {
+
+      width: 400px;
+      height: 600px;
+
+      background: #1e1e1e;
+
+      border-radius: 15px;
+
+      display: flex;
+      flex-direction: column;
+
+      overflow: hidden;
+    }
+
+    .header {
+      background: #272727;
+
+      padding: 15px;
+
+      color: white;
+
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .chat {
+      flex: 1;
+
+      padding: 15px;
+
+      overflow-y: auto;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 10px;
+    }
+
+    .message {
+
+      padding: 10px 15px;
+
+      border-radius: 10px;
+
+      max-width: 80%;
+
+      line-height: 1.4;
+    }
+
+    .user {
+      background: #1976d2;
+      color: white;
+
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #333;
+      color: white;
+
+      align-self: flex-start;
+    }
+
+    .input-container {
+      display: flex;
+
+      padding: 10px;
+
+      background: #272727;
+    }
+
+    input {
+      flex: 1;
+
+      padding: 10px;
+
+      border: none;
+      outline: none;
+
+      border-radius: 8px;
+    }
+
+    button {
+      margin-left: 10px;
+
+      border: none;
+
+      background: #1976d2;
+
+      color: white;
+
+      padding: 10px 15px;
+
+      border-radius: 8px;
+
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+
+    <div class="header">
+      Modular Chat 🤖
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="input-container">
+
+      <input
+        type="text"
+        id="input"
+        placeholder="Escribe algo..."
+      >
+
+      <button id="btn">
+        Enviar
+      </button>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+
+</body>
+</html>
