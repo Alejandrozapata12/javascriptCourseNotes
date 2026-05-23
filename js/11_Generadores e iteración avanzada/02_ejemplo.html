@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Chat Bot Async Generator</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eceff1;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 400px;
+      height: 600px;
+
+      background: white;
+
+      border-radius: 15px;
+
+      display: flex;
+      flex-direction: column;
+
+      overflow: hidden;
+
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      background: #1976d2;
+      color: white;
+
+      padding: 15px;
+
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .chat {
+      flex: 1;
+
+      padding: 15px;
+
+      overflow-y: auto;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 10px;
+    }
+
+    .mensaje {
+      max-width: 80%;
+      padding: 10px 15px;
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+
+    .usuario {
+      background: #1976d2;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #eeeeee;
+      color: black;
+      align-self: flex-start;
+    }
+
+    .input-container {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+
+      border: 1px solid #ccc;
+      border-radius: 8px;
+
+      outline: none;
+    }
+
+    button {
+      margin-left: 10px;
+
+      border: none;
+
+      background: #1976d2;
+      color: white;
+
+      padding: 10px 15px;
+
+      border-radius: 8px;
+
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1565c0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+
+    <div class="header">
+      Bot Inteligente 🤖
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="input-container">
+      <input 
+        type="text" 
+        id="input"
+        placeholder="Escribe un mensaje..."
+      >
+
+      <button id="btn">
+        Enviar
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+
+    // Esperar tiempo
+    function esperar(ms) {
+      return new Promise(resolve => {
+        setTimeout(resolve, ms);
+      });
+    }
+
+    // Agregar mensaje al chat
+    function agregarMensaje(texto, tipo) {
+
+      const chat = document.getElementById("chat");
+
+      const div = document.createElement("div");
+
+      div.classList.add("mensaje");
+      div.classList.add(tipo);
+
+      div.textContent = texto;
+
+      chat.appendChild(div);
+
+      // Scroll automático
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Async Generator del bot
+    async function* responderBot(mensajeUsuario) {
+
+      yield "Pensando...";
+
+      await esperar(1500);
+
+      if (mensajeUsuario.includes("hola")) {
+        yield "Hola humano 👋";
+      }
+
+      else if (mensajeUsuario.includes("javascript")) {
+        yield "JavaScript es increíble 🚀";
+      }
+
+      else if (mensajeUsuario.includes("async")) {
+        yield "Los async generators permiten streaming de datos.";
+      }
+
+      else {
+        yield "No entiendo eso todavía 😅";
+      }
+
+      await esperar(1000);
+
+      yield "¿Quieres preguntarme otra cosa?";
+    }
+
+    // Elementos
+    const btn = document.getElementById("btn");
+    const input = document.getElementById("input");
+
+    // Evento click
+    btn.addEventListener("click", async () => {
+
+      const mensaje = input.value.trim().toLowerCase();
+
+      if (!mensaje) return;
+
+      // Mostrar mensaje usuario
+      agregarMensaje(mensaje, "usuario");
+
+      // Limpiar input
+      input.value = "";
+
+      // Consumir async generator
+      for await (const respuesta of responderBot(mensaje)) {
+
+        agregarMensaje(respuesta, "bot");
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>

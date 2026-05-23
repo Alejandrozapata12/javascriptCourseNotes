@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Async Generators</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #chat {
+      width: 300px;
+      min-height: 200px;
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .mensaje {
+      background: #e3f2fd;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background: #1976d2;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1565c0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Chat Async Generator</h1>
+
+  <div id="chat"></div>
+
+  <button id="btn">
+    Iniciar mensajes
+  </button>
+
+  <script>
+
+    // Función para esperar tiempo
+    function esperar(ms) {
+      return new Promise(resolve => {
+        setTimeout(resolve, ms);
+      });
+    }
+
+    // Async Generator
+    async function* recibirMensajes() {
+
+      const mensajes = [
+        "Hola 👋",
+        "¿Cómo estás?",
+        "Estoy aprendiendo JavaScript",
+        "Los async generators son poderosos 🚀",
+        "Fin de mensajes"
+      ];
+
+      for (const mensaje of mensajes) {
+
+        // Espera 2 segundos
+        await esperar(2000);
+
+        // Entrega mensaje
+        yield mensaje;
+      }
+    }
+
+    // Elementos del DOM
+    const chat = document.getElementById("chat");
+    const btn = document.getElementById("btn");
+
+    // Evento
+    btn.addEventListener("click", async () => {
+
+      // Limpiar chat
+      chat.innerHTML = "";
+
+      // Consumir async generator
+      for await (const mensaje of recibirMensajes()) {
+
+        const div = document.createElement("div");
+
+        div.classList.add("mensaje");
+
+        div.textContent = mensaje;
+
+        chat.appendChild(div);
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
