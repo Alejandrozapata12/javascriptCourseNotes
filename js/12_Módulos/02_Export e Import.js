@@ -145,9 +145,31 @@ Las importaciones sin llaves se ven mejor. Un error común al comenzar a usar m�
 Export con nombre	           Export predeterminada
 export class User {...}	      export default class User {...}
 import {User} from ...	      import User from ...
-
 */
 
+/*
+Técnicamente, podemos tener exportaciones predeterminadas y con nombre en un solo módulo, pero en la práctica la gente generalmente no las mezcla. Un módulo tiene exportaciones con nombre o la predeterminada.
+
+Como puede haber como máximo una exportación predeterminada por archivo, la entidad exportada puede no tener nombre.
+
+Por ejemplo, todas estas son exportaciones predeterminadas perfectamente válidas: 
+*/
+
+export default class { // clase sin nombre
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+export default function(user) { // función sin nombre
+  return `Hello, ${user}!`;
+}
+
+export default 42; // valor sin nombre
+
+/*
+En este caso, el nombre de la clase, función o valor no se exporta, pero aún así se puede importar sin llaves.
+*/
 
 
 

@@ -18,17 +18,17 @@ export function dashboardView(){
 
                 <div class="card">
                     <span>TOTAL REVENUE</span>
-                    <h2>$124,500</h2>
+                    <h2>$0</h2>
                 </div>
 
                 <div class="card">
                     <span>CONVERSION RATE</span>
-                    <h2>4.8%</h2>
+                    <h2>0%</h2>
                 </div>
 
                 <div class="card">
                     <span>RETURN ON INVESTMENT</span>
-                    <h2>285%</h2>
+                    <h2>0%</h2>
                 </div>
 
             </div>
