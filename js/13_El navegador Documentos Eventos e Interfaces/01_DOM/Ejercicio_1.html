@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Control - Dropshipping Hogar</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f9; padding: 20px; }
+    .contenedor { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
+    .tarjeta-producto { background: white; border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 220px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);  transition: all 300ms ease; }
+    .tarjeta-producto h3 { margin: 0 0 10px 0; color: #333; }
+    .btn { padding: 8px 12px; margin-right: 5px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-crear { background: #28a745; color: white; }
+    .btn-clonar { background: #17a2b8; color: white; }
+    .btn-eliminar { background: #dc3545; color: white; margin-top: 10px; width: 100%; }
+
+    .tarjeta-producto:hover{
+        transform: scale(1.1);
+
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Gestor de Productos (Hogar y Cocina)</h1>
+  
+  <button id="btnAgregarIndividual" class="btn btn-crear">Añadir Organizador Individual</button>
+  <button id="btnCargarMasivo" class="btn">Cargar Catálogo Inicial (Optimizado)</button>
+
+  <div id="vitrinaProductos" class="contenedor"></div>
+
+  <script >
+    // 1. SELECCIÓN DE ELEMENTOS BASE
+const vitrina = document.getElementById('vitrinaProductos');
+const btnIndividual = document.getElementById('btnAgregarIndividual');
+const btnMasivo = document.getElementById('btnCargarMasivo');
+
+// ==========================================
+// A. INSERTAR USANDO insertAdjacentHTML
+// ==========================================
+btnIndividual.addEventListener('click', () => {
+  // Estructura HTML en formato String
+  const nuevoProductoHTML = `
+    <div class="tarjeta-producto">
+      <h3>Organizador de Especias</h3>
+      <p>Categoría: Cocina</p>
+      <p><strong>$45.000 COP</strong></p>
+      <button class="btn btn-clonar accion-clonar">Duplicar Oferta</button>
+      <button class="btn btn-eliminar accion-eliminar">Eliminar</button>
+    </div>
+  `;
+  
+  // Lo insertamos al final del contenedor de forma limpia y eficiente
+  vitrina.insertAdjacentHTML('beforeend', nuevoProductoHTML);
+});
+
+
+// ==========================================
+// B. OPTIMIZACIÓN CON DocumentFragment
+// ==========================================
+// Simulamos datos que llegan de un proveedor de Dropshipping
+const listaProductosAPI = [
+  { nombre: "Sartén Antiadherente", precio: "$85.000" },
+  { nombre: "Dispensador de Jabón Pro", precio: "$32.000" },
+  { nombre: "Molino de Café Eléctrico", precio: "$68.000" }
+];
+
+btnCargarMasivo.addEventListener('click', () => {
+  // Creamos el fragmento (la bolsa temporal en memoria)
+  const fragmento = document.createDocumentFragment();
+
+  listaProductosAPI.forEach(prod => {
+    // Creamos el nodo contenedor de la tarjeta
+    const tarjeta = document.createElement('div');
+    tarjeta.className = 'tarjeta-producto';
+
+    // Construimos su contenido interno de forma segura
+    tarjeta.innerHTML = `
+      <h3>${prod.nombre}</h3>
+      <p>Categoría: Hogar</p>
+      <p><strong>${prod.precio} COP</strong></p>
+      <button class="btn btn-clonar accion-clonar">Duplicar Oferta</button>
+      <button class="btn btn-eliminar accion-eliminar">Eliminar</button>
+    `;
+
+    // Lo agregamos AL FRAGMENTO, no a la pantalla (evita lentitud)
+    fragmento.append(tarjeta);
+  });
+
+  // Insertamos todos los productos de un solo golpe en el DOM real
+  vitrina.append(fragmento);
+  
+  // Deshabilitamos el botón para no duplicar la carga inicial
+  btnCargarMasivo.disabled = true;
+});
+
+
+// ==========================================
+// C. CLONAR (cloneNode) Y ELIMINAR (remove)
+// ==========================================
+// Usamos "Delegación de Eventos" para escuchar los clics en elementos dinámicos
+vitrina.addEventListener('click', (evento) => {
+  
+  // 1. Detectar si el usuario presionó un botón de ELIMINAR
+  if (evento.target.classList.contains('accion-eliminar')) {
+    // Encontramos la tarjeta contenedora más cercana
+    const tarjetaALaborrar = evento.target.closest('.tarjeta-producto');
+    
+    // Aplicamos el método moderno .remove()
+    tarjetaALaborrar.remove();
+  }
+
+  // 2. Detectar si el usuario presionó un botón de CLONAR
+  if (evento.target.classList.contains('accion-clonar')) {
+    // Encontramos la tarjeta original que queremos duplicar
+    const tarjetaOriginal = evento.target.closest('.tarjeta-producto');
+    
+    // Clonación profunda (true) para copiar el título, textos y botones internos
+    const tarjetaClonada = tarjetaOriginal.cloneNode(true);
+    
+    // Modificación sutil al clon para diferenciarlo del original en tu tienda
+    tarjetaClonada.querySelector('h3').textContent += " (Copia Combo)";
+    
+    // Usamos el método de inserción moderno .after() 
+    // Coloca el clon justo al lado derecho de la tarjeta original
+    tarjetaOriginal.after(tarjetaClonada);
+  }
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio tema 8</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            width: 200px;
+            text-align: center;
+            font-size: arial;
+            margin: 0 auto;
+        }
+
+        .notification {
+            position: fixed;
+            z-index: 1000;
+            padding: 5px;
+            border: none;
+            font-size: 20px;
+            background: white;
+            text-align: center;
+        }
+
+        .welcome {
+            background: #b80000;
+            color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Notificación tooltip a la derecha</h1>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem maxime aperiam earum repellendus tempora vitae
+        ipsum ratione? Error obcaecati dolorem ad odit hic magni totam sunt voluptatum, expedita cum eius.</p>
+    <p>
+        Escribir una función showNotification(options) que cree una notificación:
+    <div class="notification"> con el contenido dado. La notificación debería desaparecer automáticamente despues de 1.5
+        segundos.
+        // muestra un elemento con el texto "Hello" cerca de la parte superior de la ventana
+        showNotification({
+        top: 10, // 10px desde la parte superior de la ventana (por defecto es 0px)
+        right: 10, // 10px desde el borde derecho de la ventana (por defecto es 0px)
+        html: "Hello!", // el HTML de la notificación
+        className: "welcome" // una clase adicional para el "div" (opcional)
+        });
+        </p>
+
+        <script>
+            function showNotification({ top = 0, right = 0, className, html }) {
+
+                let notification = document.createElement('div');
+                notification.className = "notification";
+                if (className) {
+                    notification.classList.add(className);
+                }
+
+                notification.style.top = top + 'px';
+                notification.style.right = right + 'px';
+
+                notification.innerHTML = html;
+                document.body.append(notification);
+
+                setTimeout(() => notification.remove(), 1500);
+            }
+
+
+            let i = 1;
+            setInterval(() => {
+                showNotification({
+                    top: 10,
+                    right: 10,
+                    html: 'Hello ' + i++,
+                    className: "welcome"
+                });
+            }, 2000);
+
+        </script>
+</body>
+
+</html>
