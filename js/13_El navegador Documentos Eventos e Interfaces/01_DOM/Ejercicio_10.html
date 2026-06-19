@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio tema 10</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    #progressBar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 5px;
+      background-color: #ff6702;
+      z-index: 1000;
+    }
+
+    article {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    #btnTop {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #btnTop:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div id="progressBar"></div>
+
+<article>
+  <h1>Artículo largo</h1>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quibusdam debitis doloribus? Itaque, eum! Itaque, voluptates fugit facilis ipsum, aliquid velit dolorem asperiores obcaecati sint officia distinctio nulla. Alias, nostrum!
+  Excepturi sunt nesciunt rem ex molestiae, esse repellat? Alias cumque quae molestiae consequatur laboriosam fugit magnam. Voluptates ad porro eos sequi illum dolorum, blanditiis, necessitatibus quidem nobis tenetur, nemo repudiandae.
+  Ducimus ipsa quasi, autem quos iure doloremque ut aspernatur odio maiores repudiandae a! Fugit laudantium, mollitia, cupiditate praesentium esse excepturi quos animi quod quas libero quo odit provident et eligendi?
+  Adipisci laborum culpa sed a tempore voluptatum reiciendis, nemo eum ipsum earum nihil, quas aut quae expedita aliquam, placeat corrupti officiis perferendis ducimus necessitatibus delectus id. Labore tempora doloribus eum!
+  Minima numquam reiciendis iure inventore? Reprehenderit cupiditate odit sapiente voluptatum eaque deserunt optio voluptas itaque quae similique obcaecati laboriosam id iusto ex, ducimus necessitatibus voluptatem vero error aliquam deleniti asperiores?</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quibusdam debitis doloribus? Itaque, eum! Itaque, voluptates fugit facilis ipsum, aliquid velit dolorem asperiores obcaecati sint officia distinctio nulla. Alias, nostrum!
+  Excepturi sunt nesciunt rem ex molestiae, esse repellat? Alias cumque quae molestiae consequatur laboriosam fugit magnam. Voluptates ad porro eos sequi illum dolorum, blanditiis, necessitatibus quidem nobis tenetur, nemo repudiandae.
+  Ducimus ipsa quasi, autem quos iure doloremque ut aspernatur odio maiores repudiandae a! Fugit laudantium, mollitia, cupiditate praesentium esse excepturi quos animi quod quas libero quo odit provident et eligendi?
+  Adipisci laborum culpa sed a tempore voluptatum reiciendis, nemo eum ipsum earum nihil, quas aut quae expedita aliquam, placeat corrupti officiis perferendis ducimus necessitatibus delectus id. Labore tempora doloribus eum!
+  Minima numquam reiciendis iure inventore? Reprehenderit cupiditate odit sapiente voluptatum eaque deserunt optio voluptas itaque quae similique obcaecati laboriosam id iusto ex, ducimus necessitatibus voluptatem vero error aliquam deleniti asperiores?</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quibusdam debitis doloribus? Itaque, eum! Itaque, voluptates fugit facilis ipsum, aliquid velit dolorem asperiores obcaecati sint officia distinctio nulla. Alias, nostrum!
+  Excepturi sunt nesciunt rem ex molestiae, esse repellat? Alias cumque quae molestiae consequatur laboriosam fugit magnam. Voluptates ad porro eos sequi illum dolorum, blanditiis, necessitatibus quidem nobis tenetur, nemo repudiandae.
+  Ducimus ipsa quasi, autem quos iure doloremque ut aspernatur odio maiores repudiandae a! Fugit laudantium, mollitia, cupiditate praesentium esse excepturi quos animi quod quas libero quo odit provident et eligendi?
+  Adipisci laborum culpa sed a tempore voluptatum reiciendis, nemo eum ipsum earum nihil, quas aut quae expedita aliquam, placeat corrupti officiis perferendis ducimus necessitatibus delectus id. Labore tempora doloribus eum!
+  Minima numquam reiciendis iure inventore? Reprehenderit cupiditate odit sapiente voluptatum eaque deserunt optio voluptas itaque quae similique obcaecati laboriosam id iusto ex, ducimus necessitatibus voluptatem vero error aliquam deleniti asperiores?</p>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quibusdam debitis doloribus? Itaque, eum! Itaque, voluptates fugit facilis ipsum, aliquid velit dolorem asperiores obcaecati sint officia distinctio nulla. Alias, nostrum!
+  Excepturi sunt nesciunt rem ex molestiae, esse repellat? Alias cumque quae molestiae consequatur laboriosam fugit magnam. Voluptates ad porro eos sequi illum dolorum, blanditiis, necessitatibus quidem nobis tenetur, nemo repudiandae.
+  Ducimus ipsa quasi, autem quos iure doloremque ut aspernatur odio maiores repudiandae a! Fugit laudantium, mollitia, cupiditate praesentium esse excepturi quos animi quod quas libero quo odit provident et eligendi?
+  Adipisci laborum culpa sed a tempore voluptatum reiciendis, nemo eum ipsum earum nihil, quas aut quae expedita aliquam, placeat corrupti officiis perferendis ducimus necessitatibus delectus id. Labore tempora doloribus eum!
+  Minima numquam reiciendis iure inventore? Reprehenderit cupiditate odit sapiente voluptatum eaque deserunt optio voluptas itaque quae similique obcaecati laboriosam id iusto ex, ducimus necessitatibus voluptatem vero error aliquam deleniti asperiores?</p>
+
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quibusdam debitis doloribus? Itaque, eum! Itaque, voluptates fugit facilis ipsum, aliquid velit dolorem asperiores obcaecati sint officia distinctio nulla. Alias, nostrum!
+  Excepturi sunt nesciunt rem ex molestiae, esse repellat? Alias cumque quae molestiae consequatur laboriosam fugit magnam. Voluptates ad porro eos sequi illum dolorum, blanditiis, necessitatibus quidem nobis tenetur, nemo repudiandae.
+  Ducimus ipsa quasi, autem quos iure doloremque ut aspernatur odio maiores repudiandae a! Fugit laudantium, mollitia, cupiditate praesentium esse excepturi quos animi quod quas libero quo odit provident et eligendi?
+  Adipisci laborum culpa sed a tempore voluptatum reiciendis, nemo eum ipsum earum nihil, quas aut quae expedita aliquam, placeat corrupti officiis perferendis ducimus necessitatibus delectus id. Labore tempora doloribus eum!
+  Minima numquam reiciendis iure inventore? Reprehenderit cupiditate odit sapiente voluptatum eaque deserunt optio voluptas itaque quae similique obcaecati laboriosam id iusto ex, ducimus necessitatibus voluptatem vero error aliquam deleniti asperiores?</p>
+  
+</article>
+
+<button id="btnTop">↑ Top</button>
+
+<script>
+ 
+ const progressBar = document.getElementById('progressBar');
+ const btnTop = document.getElementById('btnTop');
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    progressBar.style.width = `${scrollPercent}%`;
+  });
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    if(scrollTop > 100) {
+      btnTop.style.display = 'block';
+    } else {
+      btnTop.style.display = 'none';
+    }
+  });
+
+  btnTop.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+</script>
+
+</body>
+</html>

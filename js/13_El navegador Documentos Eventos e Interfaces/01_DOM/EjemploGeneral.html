@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Scroll y Coordinates</title>
+    <style>
+      *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+}
+
+h1{
+    text-align:center;
+    margin:30px 0;
+}
+
+.container{
+    width:80%;
+    margin:auto;
+}
+
+.card{
+    height:500px;
+    margin-bottom:40px;
+    border:1px solid #ccc;
+    padding:20px;
+    border-radius:10px;
+}
+
+#progressBar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:0%;
+    height:5px;
+    background:green;
+    z-index:1000;
+}
+
+#btnTop{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    padding:10px 15px;
+    cursor:pointer;
+    display:none;
+}
+
+#tooltip{
+    position:fixed;
+    background:black;
+    color:white;
+    padding:8px;
+    border-radius:5px;
+    display:none;
+    pointer-events:none;
+}
+
+#mousePosition{
+    position:fixed;
+    top:15px;
+    right:15px;
+    background:white;
+    border:1px solid #ccc;
+    padding:10px;
+}
+    </style>
+</head>
+<body>
+
+    <div id="progressBar"></div>
+
+    <h1>Aprendiendo DOM</h1>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>HTML</h2>
+            <p>Pasa el mouse aquí.</p>
+        </div>
+
+        <div class="card">
+            <h2>CSS</h2>
+            <p>Pasa el mouse aquí.</p>
+        </div>
+
+        <div class="card">
+            <h2>JavaScript</h2>
+            <p>Pasa el mouse aquí.</p>
+        </div>
+
+        <div class="card">
+            <h2>Node.js</h2>
+            <p>Pasa el mouse aquí.</p>
+        </div>
+
+        <div class="card">
+            <h2>MySQL</h2>
+            <p>Pasa el mouse aquí.</p>
+        </div>
+
+    </div>
+
+    <div id="tooltip"></div>
+
+    <div id="mousePosition">
+        X: 0 | Y: 0
+    </div>
+
+    <button id="btnTop">
+        ↑
+    </button>
+
+    <script>
+      const progressBar = document.getElementById("progressBar");
+const btnTop = document.getElementById("btnTop");
+const tooltip = document.getElementById("tooltip");
+const mousePosition = document.getElementById("mousePosition");
+const cards = document.querySelectorAll(".card");
+
+
+// ======================
+// WINDOW SCROLL
+// ======================
+
+window.addEventListener("scroll", () => {
+
+    const scrollTop = window.scrollY;
+
+    const viewportHeight =
+        document.documentElement.clientHeight;
+
+    const fullHeight =
+        document.documentElement.scrollHeight;
+
+    const progress =
+        (scrollTop / (fullHeight - viewportHeight))
+        * 100;
+
+    progressBar.style.width = progress + "%";
+
+    if(scrollTop > 300){
+        btnTop.style.display = "block";
+    }else{
+        btnTop.style.display = "none";
+    }
+
+    if(scrollTop + viewportHeight >= fullHeight - 5){
+        console.log("Llegaste al final");
+    }
+
+});
+    </script>
+
+</body>
+</html>
