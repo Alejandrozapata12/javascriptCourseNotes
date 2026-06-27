@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrousel de IMG</title>
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .carrusel {
+      border: 2px solid gray;
+      border-radius:11px;
+      padding:1rem;
+      width: 500px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 300ms ease;
+    }
+
+    .carrusel:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      transform: scale(1.02);
+    }
+
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    button {
+      background-color: #007BFF;
+      margin-top: 15px;
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="carrusel">
+
+    <img id="imagen" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200" alt="Producto">
+
+    <button id="anterior">◀</button>
+    <button id="siguiente">▶</button>
+
+  </div>
+
+  <script>
+    const imagen = document.getElementById('imagen');
+    const anterior = document.getElementById('anterior');
+    const siguiente = document.getElementById('siguiente');
+
+    const imagenes = [
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?w=1200",
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1200",
+      "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?w=1200"
+    ];
+
+    let indiceActual = 0;
+
+    function mostrarImagen(indice) {
+      imagen.src = imagenes[indice];
+    }
+
+    anterior.addEventListener('click', () => {
+      indiceActual = (indiceActual - 1 + imagenes.length) % imagenes.length;
+      mostrarImagen(indiceActual);
+    });
+
+    siguiente.addEventListener('click', () => {
+      indiceActual = (indiceActual + 1) % imagenes.length;
+      mostrarImagen(indiceActual);
+    });
+  </script>
+</body>
+
+</html>

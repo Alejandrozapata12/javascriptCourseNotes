@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>propagacion y captura</title>
+  <style>
+
+    #consoleText{
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    table{
+      border-collapse: collapse;
+      width: 80%;
+    }
+
+    td, th{
+      border: 1px solid black;
+      padding: 0.6rem;
+    }
+
+    td, th:hover{
+      background-color: #f2f2f2;
+    }
+
+    button{
+     border:none;
+     border-radius:11px;
+     padding: 0.7rem;
+     cursor:pointer;
+    }
+
+    .editar{
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .eliminar{
+      background-color: #f44336;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+  <table class="tablaProductos">
+    <tr data-id ="1">
+      <td>1</td>
+      <td>Laptop</td>
+      <td>
+        <button class="editar">Editar</button>
+        <button class="eliminar">Eliminar</button>
+      </td>
+    </tr>
+    <tr data-id ="2">
+      <td>2</td>
+      <td>Tablet</td>
+      <td>
+        <button class="editar">Editar</button>
+        <button class="eliminar">Eliminar</button>
+      </td>
+    </tr>
+    <tr data-id ="3">
+      <td>3</td>
+      <td>Smartphone</td>
+      <td>
+        <button class="editar">Editar</button>
+        <button class="eliminar">Eliminar</button>
+      </td>
+    </tr>
+  </table>
+
+  <p id="consoleText"></p>
+
+  <script>
+    const table = document.querySelector('.tablaProductos');
+    const txt = document.getElementById('consoleText');
+    table.addEventListener("click", ()=>{
+      // Determinar que boton fue presionado
+      const file = event.target.closest('tr');
+      // si el boton no es un hijo de tr, no hacer nada
+      if(!file) return;
+
+      const id = file.dataset.id; //Determinar el id del producto por medio del data-id de tr
+
+      const nombre = file.children[1].textContent; //Determinar el nombre del producto por medio del td
+
+      if(event.target.classList.contains('editar')){
+        txt.textContent = `Editar producto ${nombre} con id ${id}`;
+      } else if(event.target.classList.contains('eliminar')){
+        txt.textContent = `Eliminar producto ${nombre} con id ${id}`;
+      }
+
+    });
+  </script>
+</body>
+</html>

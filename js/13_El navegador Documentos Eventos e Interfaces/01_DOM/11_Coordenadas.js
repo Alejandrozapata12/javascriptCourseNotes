@@ -25,6 +25,28 @@ top/bottom: coordenada Y para el borde superior/inferior del rectángulo.
 left/right: coordenada X para el borde izquierdo/derecho del rectángulo.
 */
 
+const btn = document.querySelector('button');
+
+btn.addEventListener('click', function() {
+  let rect = btn.getBoundingClientRect();
+  console.log(rect);
+})
+
+// Daria como respuesta algo como esto, como ejemplo claramente: 
+/*
+{
+    x: 100,
+    y: 250,
+    width: 180,
+    height: 50,
+    top: 250,
+    left: 100,
+    right: 280,
+    bottom: 300
+}
+*/
+
+
 // ============= elementFromPoint(x, y) =============
 /*
 El método document.elementFromPoint(x, y) devuelve el elemento más profundo en la jerarquía del DOM ubicado en las coordenadas (x, y) relativas a la ventana.
@@ -34,6 +56,57 @@ document.addEventListener('click', function(event) {
   let elem = document.elementFromPoint(event.clientX, event.clientY);
   console.log(elem.tagName);
 })
+
+// Ejemplo: 
+const elemento = document.elementFromPoint(300, 200);
+console.log(elemento); // Resultado = <button>Click me</button> (si el botón está en esas coordenadas)
+
+
+//   ============== RESUMEN =================
+
+/*
+1. Hay 2 sistema de coordenadas (Ventana y documento)
+
+ * Coordenadas de ventana (Viewport) = clientX/clientY y getBoundingClientRect(), se calculan de acuerdo a la parte superior/izquierda de la ventana, es decir, parte visible del navegador.Cambia cuando se hace scroll
+
+  document.addEventListener("click", (event) => {
+    console.log(event.clientX, event.clientY);
+});
+  
+
+ * Coordenadas de documento = pageX/pageY , Se calculan desde el inicio del documento completo. No cambia cuando se hace scroll.
+
+document.addEventListener("click", (event) => {
+    console.log(event.pageX, event.pageY);
+});
+
+2. getBoundingClientRect() => Devuelve la posición y el tamaño de un elemento respecto al viewport.
+
+const caja = document.QuerySelector(".caja");
+const rect = caja.getBoundingClientRect();
+console.log(rect.top, rect.left, rect.width, rect.height); // Devuelve las coordenadas y dimensiones de la caja en relación al viewport.
+ 
+ Se usa para:
+
+Posicionar tooltips.
+Mostrar menús contextuales.
+Detectar si un elemento está visible.
+Calcular posiciones para animaciones.
+
+3. Convertir coordenadas al documento -> Si necesitas la posición absoluta dentro de la página:
+
+const rect = elemento.getBoundingClientRect();
+
+const left = rect.left + window.scrollX;
+const top = rect.top + window.scrollY;
+
+
+4. elementFromPoint() => Permite saber qué elemento hay en unas coordenadas específicas del viewport.
+const elemento = document.elementFromPoint(300, 150);
+console.log(elemento);
+
+ */
+
 
 
 

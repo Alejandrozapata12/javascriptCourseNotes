@@ -139,8 +139,23 @@ Por ejemplo:
 </script>
  */
 
+// ************************* RESUMEN *************************
+/*
+Resumen
+Hay tres formas de asignar handlers:
 
+Atributos HTML: onclick="...".
+Propiedades del DOM: elem.onclick = function.
+Métodos: elem.addEventListener(event, handler[, phase]) para agregarlos ó removeEventListener para quitarlos.
+Los atributos HTML se usan con moderación, porque JavaScript en medio de una etiqueta HTML luce un poco extraño y ajeno. Además no podemos escribir montones de código ahí.
 
+Las propiedades del DOM son buenas para usar, pero no podemos asignar más de un handler a un evento en particular. En la mayoría de casos esta limitación no es apremiante.
+
+La última forma es la más flexible, pero también es la más larga para escribir. Unos pocos eventos solo funcionan con ésta, por ejemplo transitionend y DOMContentLoaded (que veremos después). Además addEventListener soporta objetos como handlers de eventos. En este caso handleEvent es llamado en caso del evento.
+
+No importa como asignes el handler, este obtiene un objeto como primer argumento. Este objeto contiene los detalles sobre lo que pasó.
+
+*/
 
 
 
