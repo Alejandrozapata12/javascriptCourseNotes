@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD con Delegación de Eventos</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+            background:#2c3e50;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        table{
+            width:650px;
+            background:white;
+            border-collapse:collapse;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow:0 10px 25px rgba(0,0,0,.3);
+        }
+
+        thead{
+            background:#34495e;
+            color:white;
+        }
+
+        th,
+        td{
+            padding:18px;
+            text-align:center;
+        }
+
+        tbody tr{
+            border-bottom:1px solid #ddd;
+        }
+
+        tbody tr:hover{
+            background:#ecf0f1;
+        }
+
+        button{
+            padding:10px 18px;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            color:white;
+            margin:0 5px;
+        }
+
+        .edit{
+            background:#d68910;
+        }
+
+        .edit:hover{
+            background:#b9770e;
+        }
+
+        .delete{
+            background:crimson;
+        }
+
+        .delete:hover{
+            background:darkred;
+        }
+
+        /* Modal */
+
+        #overlay.hidden{
+            display:none;
+        }
+
+        #overlay{
+
+            position:fixed;
+            inset:0;
+
+            background:rgba(0,0,0,.6);
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+        }
+
+        .modal{
+
+            width:400px;
+
+            background:white;
+
+            border-radius:10px;
+
+            padding:25px;
+
+        }
+
+        .modal h2{
+            margin-bottom:20px;
+        }
+
+        .modal label{
+            display:block;
+            margin-top:15px;
+            font-weight:bold;
+        }
+
+        .modal input{
+
+            width:100%;
+            padding:12px;
+
+            margin-top:8px;
+
+        }
+
+        .acciones{
+
+            margin-top:25px;
+
+            display:flex;
+            justify-content:flex-end;
+            gap:10px;
+
+        }
+
+        #guardar{
+            background:#27ae60;
+        }
+
+        #cancelar{
+            background:#7f8c8d;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody id="productos">
+
+        <tr>
+
+            <td>Mouse</td>
+
+            <td>$25.000</td>
+
+            <td>
+
+                <button class="edit">
+                    Edit
+                </button>
+
+                <button class="delete">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>Teclado</td>
+
+            <td>$80.000</td>
+
+            <td>
+
+                <button class="edit">
+                    Edit
+                </button>
+
+                <button class="delete">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>Monitor</td>
+
+            <td>$600.000</td>
+
+            <td>
+
+                <button class="edit">
+                    Edit
+                </button>
+
+                <button class="delete">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+<!-- Modal -->
+
+<div id="overlay" class="hidden">
+
+    <div class="modal">
+
+        <h2>Editar Producto</h2>
+
+        <label>Producto</label>
+
+        <input
+            type="text"
+            id="nombre">
+
+        <label>Precio</label>
+
+        <input
+            type="text"
+            id="precio">
+
+        <div class="acciones">
+
+            <button id="guardar">
+                Guardar
+            </button>
+
+            <button id="cancelar">
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const productos=document.getElementById("productos");
+
+const overlay=document.getElementById("overlay");
+
+const nombre=document.getElementById("nombre");
+
+const precio=document.getElementById("precio");
+
+const guardar=document.getElementById("guardar");
+
+const cancelar=document.getElementById("cancelar");
+
+const modal=document.querySelector(".modal");
+
+let filaActual=null;
+
+/* ==========================
+   DELEGACIÓN DE EVENTOS
+========================== */
+
+productos.addEventListener("click",(event)=>{
+
+    const btnDelete=event.target.closest(".delete");
+
+    const btnEdit=event.target.closest(".edit");
+
+    /* ELIMINAR */
+
+    if(btnDelete){
+
+        btnDelete.closest("tr").remove();
+
+        return;
+
+    }
+
+    /* EDITAR */
+
+    if(btnEdit){
+
+        filaActual=btnEdit.closest("tr");
+
+        const columnas=filaActual.children;
+
+        nombre.value=columnas[0].textContent;
+
+        precio.value=columnas[1].textContent;
+
+        overlay.classList.remove("hidden");
+
+    }
+
+});
+
+/* ==========================
+   GUARDAR
+========================== */
+
+guardar.addEventListener("click",()=>{
+
+    filaActual.children[0].textContent=nombre.value;
+
+    filaActual.children[1].textContent=precio.value;
+
+    overlay.classList.add("hidden");
+
+});
+
+/* ==========================
+   CANCELAR
+========================== */
+
+cancelar.addEventListener("click",()=>{
+
+    overlay.classList.add("hidden");
+
+});
+
+/* ==========================
+   CERRAR HACIENDO CLICK
+   EN EL FONDO
+========================== */
+
+overlay.addEventListener("click",(event)=>{
+
+    if(event.target===overlay){
+
+        overlay.classList.add("hidden");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
