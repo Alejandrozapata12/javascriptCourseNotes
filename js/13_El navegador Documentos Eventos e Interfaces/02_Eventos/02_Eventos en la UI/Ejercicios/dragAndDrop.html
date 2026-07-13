@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio Drag and Drop</title>
+  <style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f0f2f5;
+  height: 100vh;
+  overflow: hidden; /* Evitamos barras de scroll molestas durante el arrastre */
+}
+
+header {
+  padding: 20px;
+  text-align: center;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
+/* IMPORTANTE: El elemento debe tener position: absolute o fixed para poder moverlo con top y left */
+#tarjeta-arrastrable {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  width: 250px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  border: 1px solid #ccc;
+  user-select: none; /* Crucial: Evita que el navegador intente seleccionar el texto al arrastrar */
+}
+
+.barra-arrastre {
+  padding: 10px;
+  background-color: #34495e;
+  color: white;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  cursor: move; /* Cambia el cursor a la cruz de movimiento */
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.contenido {
+  padding: 15px;
+  color: #333;
+}
+
+.contenido small {
+  color: #7f8c8d;
+  display: block;
+  margin-top: 10px;
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Laboratorio de Eventos del Mouse</h1>
+    <p>Mantén presionado el cuadrado gris y arrástralo por la pantalla</p>
+  </header>
+
+  <div id="tarjeta-arrastrable">
+    <div class="barra-arrastre">⠿ Arrástrame desde aquí</div>
+    <div class="contenido">
+      <p>ID: #001</p>
+      <small>Eventos activos: mousedown, mousemove, mouseup</small>
+    </div>
+  </div>
+  
+
+  <script>
+    const tarjeta = document.getElementById('tarjeta-arrastrable');
+const barraArrastre = tarjeta.querySelector('.barra-arrastre');
+
+// 1. Cuando el usuario presiona el mouse en la barra superior
+barraArrastre.addEventListener('mousedown', (event) => {
+  
+  // Calculamos la distancia inicial entre el cursor del mouse y el borde de la tarjeta
+  // Esto evita que la esquina superior izquierda de la tarjeta "salte" directamente hacia el cursor
+  let shiftX = event.clientX - tarjeta.getBoundingClientRect().left;
+  let shiftY = event.clientY - tarjeta.getBoundingClientRect().top;
+
+  // Función encargada de mover la tarjeta en base a las coordenadas del mouse
+  function moverElemento(e) {
+    // Usamos pageX y pageY para que considere todo el espacio de la página
+    tarjeta.style.left = (e.pageX - shiftX) + 'px';
+    tarjeta.style.top = (e.pageY - shiftY) + 'px';
+  }
+
+  // Escuchamos el movimiento en todo el 'document' para máxima fluidez
+  document.addEventListener('mousemove', moverElemento);
+
+  // 2. Cuando el usuario suelta el botón del mouse...
+  document.addEventListener('mouseup', () => {
+    // Limpiamos los eventos: dejamos de escuchar el movimiento
+    document.removeEventListener('mousemove', moverElemento);
+  }, { once: true }); // '{ once: true }' hace que este mouseup se ejecute una sola vez y se borre solo
+
+});
+
+// 3. Protección extra: El navegador por defecto tiene su propio sistema de arrastre para imágenes y textos.
+// Si no lo cancelamos, causará bugs visuales horribles mientras arrastramos.
+tarjeta.ondragstart = function() {
+  return false;
+};
+  </script>
+</body>
+</html>

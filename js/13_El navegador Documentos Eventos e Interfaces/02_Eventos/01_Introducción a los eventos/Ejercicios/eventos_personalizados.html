@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprendiendo dispatchEvent</title>
+  <style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f7f6;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2c3e50;
+  color: white;
+  padding: 15px 30px;
+}
+
+.cart-status {
+  background-color: #e67e22;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  text-align: center;
+  width: 250px;
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.product-card h3 {
+  margin: 15px 0 10px;
+  color: #333;
+}
+
+.price {
+  color: #27ae60;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.btn-add {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #2980b9;
+}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <h2>Mi Tienda</h2>
+    <div class="cart-status">
+      Carrito: <span id="cart-count">0</span> productos | Total: $<span id="cart-total">0</span>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="product-card" id="producto-1" data-nombre="Audífonos Gamer" data-precio="50">
+      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200" alt="Audifonos">
+      <h3>Audífonos Gamer</h3>
+      <p class="price">$50</p>
+      <button class="btn-add">Agregar al Carrito</button>
+    </div>
+  </main>
+
+  <p>
+    Entendimiento de este ejercicio:
+El usuario hace un click real en el botón azul.
+
+El script captura ese clic nativo, lee cuánto cuesta el producto y crea un evento artificial de tipo agregar-producto con esos datos metidos en detail.
+
+Al ejecutar tarjetaProducto.dispatchEvent(...), la tarjeta avisa que ese evento acaba de suceder.
+
+El addEventListener('agregar-producto') se activa de inmediato, lee los datos de detail y actualiza la barra de navegación del carrito de manera limpia, sin que el botón tenga que conocer directamente al contador. ¡Arquitectura desacoplada y elegante!
+  </p>
+
+  <script >
+
+    // 1. SELECCIÓN DE ELEMENTOS
+const tarjetaProducto = document.getElementById('producto-1');
+const botonAgregar = tarjetaProducto.querySelector('.btn-add');
+
+const contadorHTML = document.getElementById('cart-count');
+const totalHTML = document.getElementById('cart-total');
+
+// Variables de estado del carrito
+let cantidadProductos = 0;
+let dineroTotal = 0;
+
+// ==========================================
+// 2. EL ESCUCHADOR (LISTENER)
+// ==========================================
+// La tarjeta del producto (o cualquier padre gracias a 'bubbles: true') 
+// va a escuchar nuestro evento inventado 'agregar-producto'
+tarjetaProducto.addEventListener('agregar-producto', (event) => {
+  
+  // Extraemos los datos que viajan de forma segura en event.detail
+  const infoProducto = event.detail;
+  
+  console.log(`¡Evento capturado! Se agregó: ${infoProducto.nombre} por $${infoProducto.precio}`);
+
+  // Actualizamos la lógica de nuestra app
+  cantidadProductos += 1;
+  dineroTotal += infoProducto.precio;
+
+  // Renderizamos en el HTML los nuevos valores
+  contadorHTML.textContent = cantidadProductos;
+  totalHTML.textContent = dineroTotal;
+});
+
+
+// ==========================================
+// 3. EL DISPARADOR (DISPATCHER)
+// ==========================================
+// Cuando el usuario hace click real en el botón de la tarjeta...
+botonAgregar.addEventListener('click', () => {
+
+  // Obtenemos los datos desde los atributos 'data-' del HTML de la tarjeta
+  const nombre = tarjetaProducto.dataset.nombre;
+  const precio = Number(tarjetaProducto.dataset.precio);
+
+  // Creamos nuestro evento personalizado
+  const miEventoCarrito = new CustomEvent('agregar-producto', {
+    bubbles: true, // Permite que el evento flote hacia arriba en el DOM si es necesario
+    detail: {      // Enviamos la información del producto dentro del objeto detail
+      nombre: nombre,
+      precio: precio
+    }
+  });
+
+  // ¡DISPARAMOS EL EVENTO! 
+  // Le decimos a la tarjeta que lance el evento que acabamos de configurar
+  tarjetaProducto.dispatchEvent(miEventoCarrito);
+});
+  </script>
+</body>
+</html>
