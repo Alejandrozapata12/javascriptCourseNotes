@@ -63,21 +63,33 @@ menu.addEventListener("click", (event) => {
     console.log(event.target.textContent);
 })
 
+// ================== EJEMPLO  ==================
+const sidebar = document.querySelector("#sidebar");
+const titulo = document.querySelector("#titulo");
 
+// SOLO UN EVENT LISTENER
+sidebar.addEventListener("click", (event) => {
 
+    // Buscar el <li> más cercano
+    const opcion = event.target.closest("li");
 
+    // Si no se hizo clic sobre un <li>, salir
+    if (!opcion) return;
 
+    // Quitar active de todos
+    document
+        .querySelectorAll(".menu li")
+        .forEach(li => li.classList.remove("active"));
 
+    // Agregar active al seleccionado
+    opcion.classList.add("active");
 
+    // Obtener la página
+    const pagina = opcion.dataset.page;
 
+    // Cambiar el contenido
+    titulo.textContent = pagina.toUpperCase();
 
+    console.log("Abrir:", pagina);
 
-
-
-
-
-
-
-
-
-
+});

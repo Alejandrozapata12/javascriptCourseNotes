@@ -94,3 +94,117 @@ Event Delegation (Delegación de Eventos):
 Consiste en colocar un único addEventListener() en un elemento padre y utilizar event.target para identificar qué elemento hijo originó el evento. Esta técnica mejora el rendimiento y facilita el mantenimiento del código cuando hay muchos elementos dinámicos.
 
  */
+
+
+
+/*
+El recorrido tiene tres fases
+================= 1. Capturing (Captura)  =================
+
+El evento baja desde arriba.
+
+document
+↓
+html
+↓
+body
+↓
+div
+↓
+button
+
+Todavía no ha ocurrido el clic.
+
+Simplemente el evento está viajando.
+
+================= 2. Target =================
+
+Finalmente llega al elemento donde hiciste clic.
+
+En este caso
+
+BUTTON
+
+Aquí ocurre realmente el clic.
+
+================= 3. Bubbling (Propagación) =================
+
+Ahora comienza a subir.
+
+button
+↑
+div
+↑
+body
+↑
+html
+↑
+document
+
+Durante esta subida pueden ejecutarse otros listeners.
+
+*/
+
+// Ahora ejemplo en codigo: 
+/*
+HTML
+<div id="caja">
+    <button id="boton">
+        Comprar
+    </button>
+</div>
+*/
+
+// JS
+
+const caja = document.getElementById("caja");
+const boton = document.getElementById("boton");
+
+caja.addEventListener("click", () => {
+    console.log("DIV");
+});
+
+boton.addEventListener("click", () => {
+    console.log("BOTÓN");
+});
+
+/*
+Ahora si hacemos clic en :
+Comprar
+
+¿Qué imprime?
+
+Muchos piensan
+
+BOTÓN
+
+Pero imprime
+
+BOTÓN
+DIV
+
+¿Por qué?
+
+Porque ocurrió esto:
+
+BUTTON
+↑
+DIV
+
+Cuando el evento subió llegó al div.
+
+Y el div también tenía un listener.
+
+Entonces también se ejecutó.
+
+Eso es Bubbling.
+*/
+
+
+
+/*
+Capturing: el evento baja desde document hasta el elemento donde ocurrirá el evento.
+Target: es el elemento exacto donde ocurrió el evento.
+Bubbling: el evento sube desde el elemento objetivo hacia sus ancestros.
+Delegación de eventos: aprovechando el bubbling, puedes poner un solo addEventListener en un elemento padre y gestionar los eventos de todos sus hijos usando event.target.
+*/

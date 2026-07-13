@@ -149,6 +149,321 @@ let redu = operation.reduce((itOne, itTwo) => itOne + itTwo,0);
 console.log(redu);
 
 
+// ================ 5. CONDICIONALES ================
+// Haz un sistema que determine la nota de un estudiante.
+/*
+>=90 Excelente
+
+>=80 Bueno
+
+>=70 Aprobó
+
+<70 Reprobó
+ */
+
+let nota = 95;
+const excelente = 90;
+const bueno = 80;
+const aprobo = 70;
+const reprobo = 70;
+
+if(nota >= excelente ){
+  console.log("Excelente");
+} else if (nota >= bueno){
+  console.log("Bueno");
+} else if(nota >= aprobo){
+   console.log("Aprobó");
+} else  if (nota < reprobo){
+  console.log("Reprobó");
+}else{
+  console.log("Error, número incorrecto")
+}
+
+// ================ 6. FUNCIONES ================
+// Calcular el IMC
+
+const imprimir = document.querySelector("#pm");
+const peso = document.querySelector("#peso");
+const altura = document.querySelector("#altura"); 
+const btn = document.querySelector("#apply");
+
+function calcularImc(p, a) {
+  if (p === 0 || a === 0 || isNaN(p) || isNaN(a)) {
+    imprimir.textContent = "Error, número inválido";
+    return;
+  }
+  
+  const imc = p / Math.pow(a, 2);
+  let clasificacion = "";
+
+  // Evaluación del rango de IMC
+  if (imc < 18.5) {
+    clasificacion = "Bajo peso";
+  } else if (imc >= 18.5 && imc < 25) {
+    clasificacion = "Normal";
+  } else if (imc >= 25 && imc < 30) {
+    clasificacion = "Sobrepeso";
+  } else {
+    clasificacion = "Obesidad";
+  }
+
+  // Muestra el resultado numérico y la categoría
+  imprimir.textContent = `Tu IMC es: ${imc.toFixed(1)} (${clasificacion})`;
+}
+
+function iniciar() {
+  const valorPeso = Number(peso.value);
+  const valorAltura = Number(altura.value);
+  
+  calcularImc(valorPeso, valorAltura);
+}
+
+btn.addEventListener("click", iniciar);
+
+// ================ 7. OBJETOS ================
+
+// Objeto principal con sus métodos nativos
+    const empleado = {
+      nombre: "",
+      edad: 0,
+      salario: 0,
+      cargo: "",
+
+      aumentarSalario(porcentaje) {
+        this.salario += this.salario * (porcentaje / 100);
+        mostrarMensajeEnPantalla(`📈 Salario aumentado un ${porcentaje}%. Nuevo sueldo: $${this.salario.toFixed(2)}`);
+      },
+
+      mostrarInfo() {
+        const contenedor = document.querySelector("#consolaPantalla");
+        contenedor.style.display = "block";
+        contenedor.innerHTML = `
+          <strong>DATOS DEL EMPLEADO:</strong><br>
+          • Nombre: ${this.nombre}<br>
+          • Edad: ${this.edad} años<br>
+          • Cargo: ${this.cargo}<br>
+          • Salario: $${this.salario.toFixed(2)}
+        `;
+      },
+
+      cumplirAños() {
+        this.edad += 1;
+        mostrarMensajeEnPantalla(`🎉 ¡Feliz Cumpleaños ${this.nombre}! Ahora tienes ${this.edad} años.`);
+      }
+    };
+
+    // selectores del DOM
+    const inputNombre = document.querySelector("#nombreEmp");
+    const inputEdad = document.querySelector("#edadEmp");
+    const inputSalario = document.querySelector("#salarioEmp");
+    const inputCargo = document.querySelector("#cargoEmp");
+    const inputPorcentaje = document.querySelector("#porcentajeAumento");
+
+    const btnAumentar = document.querySelector("#btnAumentar");
+    const btnCumplir = document.querySelector("#btnCumplir");
+    const btnMostrar = document.querySelector("#btnMostrar");
+    const consolaPantalla = document.querySelector("#consolaPantalla");
+
+    // Sincroniza lo que escribe el usuario con las propiedades del objeto
+    function actualizarDatosObjeto() {
+      empleado.nombre = inputNombre.value.trim() || "No asignado";
+      empleado.edad = Number(inputEdad.value) || 0;
+      empleado.salario = Number(inputSalario.value) || 0;
+      empleado.cargo = inputCargo.value.trim() || "No asignado";
+    }
+
+    // Pequeña función auxiliar para notificaciones rápidas en pantalla
+    function mostrarMensajeEnPantalla(msg) {
+      consolaPantalla.style.display = "block";
+      consolaPantalla.innerHTML = msg;
+    }
+
+    // Eventos
+    btnAumentar.addEventListener("click", () => {
+      actualizarDatosObjeto();
+      const porcentaje = Number(inputPorcentaje.value);
+      if (porcentaje > 0 && empleado.salario > 0) {
+        empleado.aumentarSalario(porcentaje);
+        inputSalario.value = empleado.salario.toFixed(2); // Refleja el cambio en el input
+      } else {
+        mostrarMensajeEnPantalla("⚠️ Ingresa un salario base y un porcentaje válidos.");
+      }
+    });
+
+    btnCumplir.addEventListener("click", () => {
+      actualizarDatosObjeto();
+      if (inputEdad.value !== "") {
+        empleado.cumplirAños();
+        inputEdad.value = empleado.edad; // Refleja el cambio en el input
+      } else {
+        mostrarMensajeEnPantalla("⚠️ Introduce primero la edad actual.");
+      }
+    });
+
+    btnMostrar.addEventListener("click", () => {
+      actualizarDatosObjeto();
+      empleado.mostrarInfo();
+    });
+
+    // ================ 8. DESESTRUCTURACIÓN y SPREAD ================
+
+    // Convertir: 
+
+    const persona = {
+    nombre:"Juan",
+    edad:30,
+    direccion:{
+        ciudad:"Bogotá",
+        pais:"Colombia"
+    }
+}
+
+const {nombre} = persona;
+console.log(nombre);
+
+const {ciudad} = persona.direccion;
+console.log(ciudad); 
+
+// Spread
+const copiaObj = {...persona}; // Copia del objeto original
+
+const estado = {
+  ...persona, // Copia el estado y valor de este objeto y lo une con este nuevo
+  state: true
+};
+
+    // ================ 9. CLASES ================
+
+// --- DEFINICIÓN DE LA CLASE ---
+    class Empleado {
+      constructor(nombre, cargo, edad, salario) {
+        this.nombre = nombre;
+        this.cargo = cargo;
+        this.edad = edad;
+        this.salario = salario;
+      }
+
+      aumentarSalario(porcentaje) {
+        this.salario += this.salario * (porcentaje / 100);
+      }
+
+      cumplirAnos() {
+        this.edad += 1;
+      }
+    }
+
+    // --- LÓGICA DE LA APLICACIÓN ---
+    const listaEmpleados = []; // Array donde guardaremos cada "new Empleado()"
+
+    // Selectores
+    const inputNombre = document.querySelector("#nombre");
+    const inputCargo = document.querySelector("#cargo");
+    const inputEdad = document.querySelector("#edad");
+    const inputSalario = document.querySelector("#salario");
+    const selectEmpleados = document.querySelector("#selectEmpleados");
+    const listaVisual = document.querySelector("#listaVisual");
+    const inputPorcentaje = document.querySelector("#porcentaje");
+
+    // Botones
+    document.querySelector("#btnRegistrar").addEventListener("click", () => {
+      const nom = inputNombre.value.trim();
+      const car = inputCargo.value.trim();
+      const ed = Number(inputEdad.value);
+      const sal = Number(inputSalario.value);
+
+      if (!nom || !car || !ed || !sal) return alert("Completa todos los campos");
+
+      // Instanciación usando la Clase
+      const nuevoEmpleado = new Empleado(nom, car, ed, sal);
+      listaEmpleados.push(nuevoEmpleado);
+
+      limpiarFormulario();
+      actualizarInterfaz();
+    });
+
+    function actualizarInterfaz() {
+      // 1. Limpiar y rellenar el selector desplegable
+      selectEmpleados.innerHTML = '<option value="">-- Seleccionar --</option>';
+      // 2. Limpiar el visor de texto
+      listaVisual.innerHTML = "";
+
+      listaEmpleados.forEach((emp, index) => {
+        // Añadir al desplegable
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = emp.nombre;
+        selectEmpleados.appendChild(option);
+
+        // Añadir a la lista visual de la pantalla
+        const div = document.createElement("div");
+        div.className = "empleado-item";
+        div.innerHTML = `[ID: ${index}] <strong>${emp.nombre}</strong> - ${emp.cargo} | Edad: ${emp.edad} | Salario: $${emp.salario.toFixed(2)}`;
+        listaVisual.appendChild(div);
+      });
+
+      if (listaEmpleados.length === 0) {
+        listaVisual.textContent = "Ningún empleado registrado aún.";
+      }
+    }
+
+    // Evento Aumentar Salario ejecutando el método de la clase
+    document.querySelector("#btnAumentar").addEventListener("click", () => {
+      const idx = selectEmpleados.value;
+      const pct = Number(inputPorcentaje.value);
+
+      if (idx === "" || isNaN(pct) || pct <= 0) return alert("Selecciona un empleado e ingresa un % válido");
+
+      // Llamamos directamente al método nativo de esa instancia específica
+      listaEmpleados[idx].aumentarSalario(pct);
+      inputPorcentaje.value = "";
+      actualizarInterfaz();
+    });
+
+    // Evento Cumplir Años ejecutando el método de la clase
+    document.querySelector("#btnCumplir").addEventListener("click", () => {
+      const idx = selectEmpleados.value;
+      if (idx === "") return alert("Selecciona un empleado primero");
+
+      // Llamamos al método nativo de la instancia
+      listaEmpleados[idx].cumplirAnos();
+      actualizarInterfaz();
+    });
+
+    function limpiarFormulario() {
+      inputNombre.value = "";
+      inputCargo.value = "";
+      inputEdad.value = "";
+      inputSalario.value = "";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
