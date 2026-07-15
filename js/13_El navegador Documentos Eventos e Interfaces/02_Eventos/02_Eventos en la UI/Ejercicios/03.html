@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo de Firma Digital - Pointer Events</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signature-container {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  max-width: 550px;
+  width: 100%;
+}
+
+h3 { color: #1f2937; margin-bottom: 8px; }
+p { color: #6b7280; font-size: 0.9rem; margin-bottom: 20px; }
+
+/* REQUISITO CRUCIAL PARA POINTER EVENTS EN MÓVILES */
+#canvas-firma {
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  background-color: #fafafa;
+  cursor: crosshair;
+  display: block;
+  width: 100%;
+  height: 250px;
+  /* Desactiva los gestos del celular (scroll/zoom) dentro del lienzo */
+  touch-action: none; 
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.btn-primary { background-color: #2563eb; color: white; }
+.btn-primary:hover { background-color: #1d4ed8; }
+
+.btn-secondary { background-color: #e5e7eb; color: #4b5563; }
+.btn-secondary:hover { background-color: #d1d5db; }
+</style>
+</head>
+<body>
+
+  <div class="signature-container">
+    <h3>Firma Digital de Autorización</h3>
+    <p>Por favor, dibuja tu firma dentro del recuadro usando tu mouse, dedo o lápiz digital.</p>
+    
+    <canvas id="canvas-firma"></canvas>
+
+    <div class="actions">
+      <button id="btn-limpiar" class="btn btn-secondary">Limpiar Pantalla</button>
+      <button id="btn-guardar" class="btn btn-primary">Guardar Firma</button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas-firma');
+const ctx = canvas.getContext('2d');
+const btnLimpiar = document.getElementById('btn-limpiar');
+const btnGuardar = document.getElementById('btn-guardar');
+
+// Estado del dibujo
+let estaDibujando = false;
+
+// 1. AJUSTAR EL TAMAÑO REAL DEL RENDERIZADO DEL CANVAS
+// El canvas necesita que sus propiedades internas width/height coincidan con su tamaño visual CSS
+function ajustarDimensionesCanvas() {
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  
+  // Configuración del estilo de la línea de dibujo
+  ctx.lineCap = 'round';     // Hace que los bordes de las líneas sean redondos
+  ctx.lineJoin = 'round';    // Hace que las esquinas de las curvas sean suaves
+  ctx.strokeStyle = '#1e3a8a'; // Color azul oscuro profesional para firmas
+}
+// Lo ejecutamos al cargar la página
+ajustarDimensionesCanvas();
+
+
+// 2. DETECTAR EL INICIO DEL TRAZO (pointerdown)
+canvas.addEventListener('pointerdown', (event) => {
+  estaDibujando = true;
+
+  // SUPERPODER: "Secuestramos" este puntero. 
+  // No importa a dónde se mueva en la pantalla, el canvas seguirá recibiendo el trazo.
+  canvas.setPointerCapture(event.pointerId);
+
+  // Posicionamos el pincel inicial en las coordenadas relativas del canvas
+  const x = event.offsetX;
+  const y = event.offsetY;
+  
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+});
+
+
+// 3. DETECTAR EL MOVIMIENTO DEL TRAZO (pointermove)
+canvas.addEventListener('pointermove', (event) => {
+  if (!estaDibujando) return;
+
+  const x = event.offsetX;
+  const y = event.offsetY;
+
+  // LÓGICA AVANZADA: Adaptamos el grosor usando la PROPIEDAD DE PRESIÓN física
+  // Si es un mouse normal dará 0.5 por defecto, si es pantalla táctil o lápiz variará entre 0 y 1
+  let grosorBase = 3;
+  ctx.lineWidth = grosorBase * (event.pressure || 1); 
+
+  // Imprimimos en consola qué dispositivo está usando el usuario en tiempo real
+  console.log(`Dibujando con: ${event.pointerType} | Presión: ${event.pressure}`);
+
+  // Dibujamos la línea hasta la nueva posición del puntero
+  ctx.lineTo(x, y);
+  ctx.stroke();
+});
+
+
+// 4. DETECTAR EL FINAL DEL TRAZO (pointerup)
+canvas.addEventListener('pointerup', (event) => {
+  if (!estaDibujando) return;
+  estaDibujando = false;
+  
+  // Liberamos el puntero de manera limpia
+  canvas.releasePointerCapture(event.pointerId);
+});
+
+
+// 5. FUNCIONALIDADES DE LOS BOTONES
+// Limpiar la pantalla por completo
+btnLimpiar.addEventListener('click', () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+// Guardar/Exportar la firma como una imagen real de Base64
+btnGuardar.addEventListener('click', () => {
+  const imagenB64 = canvas.toDataURL('image/png');
+  
+  // En la vida real, enviarías este "imagenB64" a tu servidor Node.js o Base de datos (Supabase)
+  console.log("Firma guardada con éxito string listo para base de datos:", imagenB64);
+  alert("¡Firma capturada con éxito! Revisa la consola de desarrollador para ver los datos exportados.");
+});
+
+  </script>
+</body>
+</html>
