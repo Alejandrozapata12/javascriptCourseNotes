@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos de puntero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+
+            font-family: Arial;
+
+            background: #f4f4f4;
+
+            padding: 40px;
+
+        }
+
+        .board {
+
+            display: flex;
+
+            gap: 20px;
+
+            margin-top: 40px;
+
+        }
+
+        .card {
+
+            width: 180px;
+
+            height: 120px;
+
+            background: white;
+
+            border-radius: 10px;
+
+            box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            cursor: grab;
+
+            position: relative;
+
+            user-select: none;
+
+            transition: box-shadow .3s;
+
+        }
+
+        .card:hover {
+
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .3);
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <h1>Dashboard</h1>
+
+    <p id="info">
+        Tipo de dispositivo:
+    </p>
+
+    <div class="board">
+
+        <div class="card">
+            Dashboard
+        </div>
+
+        <div class="card">
+            Productos
+        </div>
+
+        <div class="card">
+            Clientes
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+        const cards = document.querySelectorAll(".card");
+        const info = document.querySelector("#info");
+
+        cards.forEach(card => {
+
+            let offsetX = 0;
+            let offsetY = 0;
+
+            function mover(event) {
+
+                card.style.left = event.clientX - offsetX + "px";
+                card.style.top = event.clientY - offsetY + "px";
+
+            }
+
+            card.addEventListener("pointerdown", (event) => {
+
+                console.clear();
+
+                console.log("pointerdown");
+
+                console.log("pointerId:", event.pointerId);
+
+                console.log("pointerType:", event.pointerType);
+
+                info.textContent =
+                    "Dispositivo: " + event.pointerType;
+
+                offsetX = event.clientX - card.offsetLeft;
+                offsetY = event.clientY - card.offsetTop;
+
+                card.style.cursor = "grabbing";
+
+                // Muy importante
+                card.setPointerCapture(event.pointerId);
+
+                card.addEventListener("pointermove", mover);
+
+            });
+
+            card.addEventListener("pointerup", (event) => {
+
+                console.log("pointerup");
+
+                card.releasePointerCapture(event.pointerId);
+
+                card.removeEventListener("pointermove", mover);
+
+                card.style.cursor = "grab";
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>

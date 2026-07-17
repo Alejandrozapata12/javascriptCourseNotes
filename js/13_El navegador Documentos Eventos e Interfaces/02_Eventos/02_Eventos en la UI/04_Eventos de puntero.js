@@ -92,6 +92,153 @@ Si intentas mover un objeto en un celular usando pointermove, el navegador se co
 }
 */
 
+/*
+¿Qué son los Pointer Events?
+
+Los Pointer Events son eventos que representan cualquier dispositivo que apunte a la pantalla.
+
+Puede ser:
+
+🖱 Mouse
+👆 Dedo (pantalla táctil)
+✏️ Lápiz digital (Stylus)
+
+Todos generan los mismos eventos.
+
+Antes hacías esto:
+
+element.addEventListener("mousedown", ...);
+element.addEventListener("touchstart", ...);
+
+Ahora vasta con :  
+
+element.addEventListener("pointerdown", ...);
+
+*/
+
+/*
+¿Qué significa "Pointer"?
+
+"Pointer" significa puntero.
+
+No se refiere únicamente al cursor.
+
+Se refiere al objeto que está interactuando con la pantalla.
+
+Ejemplos:
+
+Mouse
+↓
+
+Pointer
+
+--------------
+
+Dedo
+↓
+
+Pointer
+
+--------------
+
+Lápiz
+↓
+
+Pointer
+
+JavaScript no necesita saber cuál es.
+
+Solo sabe:
+
+"Hay un puntero interactuando."
+
+
+2. Entendimiento
+Eventos principales
+pointerdown
+
+Ocurre cuando el puntero toca el elemento.
+
+Equivale a:
+
+mousedown
+
+o
+
+touchstart
+
+Ejemplo:
+*/
+boton.addEventListener("pointerdown", () => {
+    console.log("Comenzó la interacción");
+});
+
+/*
+pointerup
+
+Cuando se libera.
+
+mousedown
+
+↓
+
+mouseup
+*/
+boton.addEventListener("pointerup", () => {
+    console.log("Terminó");
+});
+
+// pointermove: Mientras el puntero se mueve.
+document.addEventListener("pointermove", (event) => {
+
+    console.log(event.clientX, event.clientY);
+
+});
+
+/*
+pointerenter
+Cuando el puntero entra al elemento.
+Parecido a mouseenter
+
+pointerleave
+Cuando sale.
+Parecido a mouseleave
+
+pointerover
+Cuando pasa por encima.
+Hace bubbling.
+
+pointerout
+Cuando sale.
+También hace bubbling.
+
+clientX
+Posición horizontal.
+
+clientY
+Posición vertical.
+
+pointerId
+Cada puntero tiene un ID.
+Muy útil cuando existen varios dedos.
+
+pointerType
+Dice qué dispositivo fue.
+
+*/
+
+if(event.pointerType==="touch"){
+
+console.log("Celular");
+
+}
+
+
+
+
+
+
+
 
 
 
