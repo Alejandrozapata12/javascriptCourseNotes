@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo duble clic</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background-color: darkslategray;
+            color: white
+        }
+
+        .container{
+            width: 280px;
+            height: 280px;
+            border: 2px ridge white;
+            border-radius: 12px;
+            margin: 0 auto;
+            margin-top: 2.5rem;
+           text-align: center;
+
+           h1{
+            padding: 2.5rem;
+           }
+
+           #btn{
+            border: none;
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-weight: bold;
+            font-size: 17px;
+            background-color: darkseagreen;
+            cursor: pointer;
+            transition: all 300ms ease;
+           }
+
+           #btn:hover{
+            transform: translateY(-2px);
+           }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Doble clic</h1>
+        <button id="btn" translate="no">Clic me</button>
+        <p class="text"></p>
+    </div>
+     
+
+    <script>
+        const btn = document.querySelector("#btn");
+        const txt = document.querySelector(".text");
+
+        btn.addEventListener("mouseover", ()=>{
+            txt.textContent = "Haz ingreso al btn";
+        })
+
+        btn.addEventListener("mouseout", ()=>{
+           txt.textContent = "Haz salido del btn";
+        })
+
+        btn.addEventListener("mousedown", ()=>{
+           txt.textContent = "Oprimiste";
+        })
+
+        btn.addEventListener("mouseup", ()=>{
+           txt.textContent = "Soltaste";
+        })
+
+        btn.addEventListener("mousemove", ()=>{
+           txt.textContent = "Cualquier movimiento";
+        })
+
+         btn.addEventListener("contextmenu", ()=>{
+           txt.textContent = "Hiciste click derecho";
+        })
+    </script>
+
+</body>
+</html>

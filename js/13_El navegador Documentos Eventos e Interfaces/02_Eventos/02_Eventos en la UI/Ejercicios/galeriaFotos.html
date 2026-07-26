@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Delegación de Eventos + Mouse</title>
+  <style>
+    /* Estilos para el contenedor */
+    #grid-container {
+      display: flex;
+      gap: 15px;
+      padding: 20px;
+      background-color: #f1f5f9;
+      user-select: none; /* Previene la selección de texto en azul */
+    }
+
+    /* Estilo de cada tarjeta */
+    .card {
+      width: 120px;
+      height: 100px;
+      background-color: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    /* Estados visuales */
+    .card.selected {
+      border-color: #2563eb;
+      background-color: #dbeafe;
+    }
+
+    .card.favorite {
+      background-color: #fef08a;
+      border-color: #eab308;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Galería de Selección (Usa Clic, Ctrl+Clic o Clic Derecho)</h2>
+  
+  <!-- CONTENEDOR PADRE: Aquí pondremos el único listener -->
+  <div id="grid-container">
+    <div class="card" data-id="1">Foto 1</div>
+    <div class="card" data-id="2">Foto 2</div>
+    <div class="card" data-id="3">Foto 3</div>
+    <div class="card" data-id="4">Foto 4</div>
+  </div>
+
+  <p id="info-log">Haz clic en alguna tarjeta...</p>
+
+  <script>
+    const container = document.getElementById('grid-container');
+    const infoLog = document.getElementById('info-log');
+
+    // 1. Prevenir selección de texto al arrastrar o hacer clic rápido
+    container.onmousedown = () => false;
+
+    // 2. DELEGACIÓN DE EVENTOS: Un solo listener para manejar clics izquierdos y combinaciones
+    container.addEventListener('click', (event) => {
+      // Usamos .closest() para asegurarnos de capturar la tarjeta aunque tenga texto o hijos dentro
+      const card = event.target.closest('.card');
+
+      // Si el clic fue en el espacio vacío del contenedor (no sobre una tarjeta), ignoramos
+      if (!card || !container.contains(card)) return;
+
+      // Detectamos combinaciones de teclas (Windows / Mac)
+      const isMultiSelect = event.ctrlKey || event.metaKey;
+
+      if (isMultiSelect) {
+        // Modo Selección Múltiple
+        card.classList.toggle('selected');
+      } else {
+        // Modo Selección Única
+        // Limpiamos las demás tarjetas
+        const allCards = container.querySelectorAll('.card');
+        allCards.forEach(c => c.classList.remove('selected'));
+
+        // Seleccionamos la actual
+        card.classList.add('selected');
+      }
+
+      // Leemos coordenadas (relativas al documento)
+      infoLog.textContent = `Seleccionaste la tarjeta #${card.dataset.id} en las coordenadas (${event.pageX}px, ${event.pageY}px)`;
+    });
+
+    // 3. DELEGACIÓN DE EVENTOS: Manejo de clic derecho (contextmenu)
+    container.addEventListener('contextmenu', (event) => {
+      const card = event.target.closest('.card');
+      
+      if (!card || !container.contains(card)) return;
+
+      // Cancelamos el menú emergente por defecto del navegador
+      event.preventDefault();
+
+      // Alternamos estado de favorito
+      card.classList.toggle('favorite');
+      infoLog.textContent = `Tarjeta #${card.dataset.id} marcada/desmarcada como favorita`;
+    });
+  </script>
+</body>
+</html>
