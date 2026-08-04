@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Focus y Blur</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+padding:40px;
+
+}
+
+input{
+
+padding:12px;
+
+width:300px;
+
+border:2px solid gray;
+
+border-radius:6px;
+
+outline:none;
+
+}
+
+.correcto{
+
+border-color:green;
+
+}
+
+.error{
+
+border-color:red;
+
+}
+
+small{
+
+display:block;
+
+margin-top:10px;
+
+color:red;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Registro</h2>
+
+<input
+id="nombre"
+placeholder="Nombre completo">
+
+<small id="mensaje"></small>
+
+<script>
+
+const input=document.querySelector("#nombre");
+
+const mensaje=document.querySelector("#mensaje");
+
+// Cuando recibe el foco
+input.addEventListener("focus",()=>{
+
+    input.classList.remove("error");
+
+    mensaje.textContent="";
+
+});
+
+// Cuando pierde el foco
+input.addEventListener("blur",()=>{
+
+    if(input.value.trim()===""){
+
+        input.classList.add("error");
+
+        mensaje.textContent="El nombre es obligatorio.";
+
+    }else{
+
+        input.classList.add("correcto");
+
+    }
+
+});
+
+// Colocar el cursor al cargar
+window.onload=()=>{
+
+    input.focus();
+
+};
+
+</script>
+
+</body>
+
+</html>

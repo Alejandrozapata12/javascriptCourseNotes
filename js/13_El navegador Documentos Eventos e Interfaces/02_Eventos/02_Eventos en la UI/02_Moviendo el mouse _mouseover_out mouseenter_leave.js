@@ -48,6 +48,305 @@ cajaEnter.addEventListener('mouseenter', () => {
   countEnter.textContent = numEnter;
 });
 
+/*
+Evento	¿Cuándo ocurre?
+mousemove	Mientras el mouse se mueve
+mouseover	Cuando el cursor entra a un elemento (o a un hijo)
+mouseout	Cuando el cursor sale de un elemento (o entra/sale de un hijo)
+mouseenter	Cuando el cursor entra por primera vez al elemento
+mouseleave	Cuando el cursor sale completamente del elemento
+*/
+
+// 01 -- mousemove ¿Qué hace? Se ejecuta cada vez que el mouse se mueve.
+element.addEventListener("mousemove", (e)=>{
+  console.log(e.clientX);
+});
+
+/*
+Imagina mover el mouse.
+•
+   •
+      •
+          •
+             •
+Cada pequeño movimiento dispara un evento.
+Puede generar cientos de eventos por segundo.
+*/
+
+// 02 -- mouseover Ahora imagina.
+/*
+Fuera
+
+↓
+
+┌────────────────────┐
+
+      Producto
+
+     [ Comprar ]
+
+└────────────────────┘
+
+Cuando el cursor entra.
+
+Se dispara.
+
+mouseover
+
+Hasta aquí parece igual que mouseenter.
+
+Pero espera.
+
+Ahora el cursor baja al botón.
+
+Producto
+
+↓
+
+Comprar
+
+También vuelve a ejecutarse.
+
+¿Por qué?
+
+Porque mouseover también considera los elementos hijos.
+
+El recorrido sería:
+
+DIV
+
+↓
+
+BUTTON
+
+Y vuelve a dispararse.
+*/
+
+
+/*
+1. Claridad
+¿Qué problema resuelven estos eventos?
+
+Imagina que tienes una tarjeta de producto en un e-commerce.
+
+┌─────────────────────────────┐
+│                             │
+│      Laptop Gamer           │
+│                             │
+│      ⭐⭐⭐⭐⭐                 │
+│                             │
+│      [ Comprar ]            │
+│                             │
+└─────────────────────────────┘
+
+
+Quieres saber cosas como:
+
+¿El usuario entró a la tarjeta?
+¿Se fue de la tarjeta?
+¿Está moviendo el mouse dentro?
+¿Entró al botón?
+¿Salió del botón?
+
+Para responder esas preguntas existen estos eventos.
+
+
+Los cinco eventos
+Evento	¿Qué detecta?
+mousemove	El mouse se mueve
+mouseover	El mouse entra a un elemento o a uno de sus hijos
+mouseout	El mouse sale de un elemento o entra/sale de un hijo
+mouseenter	El mouse entra al elemento (ignora los hijos)
+mouseleave	El mouse sale completamente del elemento (ignora los hijos)
+*/
+
+// ================= mousemove - Se ejecuta cada vez que el cursor cambia de posición. ==================
+card.addEventListener("mousemove", (event) => {
+
+    console.log(event.clientX, event.clientY);
+
+});
+
+/*
+Si mueves el mouse 1 milímetro...
+Se ejecuta.
+Otro milímetro...
+Se vuelve a ejecutar.
+Puede dispararse cientos de veces por segundo.
+*/
+
+// ================= mouseover  ==================
+/*
+<div id="container">
+   <button id="btn">Clic here</button>
+</div>
+*/
+
+const contenedor = document.querySelector("#container");
+
+contenedor.addEventListener("mouseover", (e)=> {
+    console.log("Dentro")
+})
+
+/*
+Sucede que al momento de el mouse ingresar al div se aplicaria un mouseover, sin embargo, que pasa si da clic en el button, pasaria lo mismo (mouseover) debido a que esta fuente lo aplica tanto al padre como al hijo.
+
+Fuera
+
+↓
+
+DIV
+
+✓ mouseover
+
+↓
+
+BUTTON
+
+✓ mouseover otra vez
+*/
+
+
+// ================= mouseout  ==================
+/*
+Es el contrario.
+Supongamos que estás sobre el DIV.
+Ahora bajas al botón.
+
+El navegador interpreta que el cursor salió del DIV para entrar al BUTTON.
+Entonces ocurre: mouseout
+
+Aunque visualmente sigas dentro de la tarjeta.
+Eso suele sorprender cuando empiezas a trabajar con estos eventos.
+ */
+
+
+// ================= mouseenter  ==================
+// Este es mucho más simple. Solo ocurre cuando el cursor entra por primera vez al elemento.
+/*
+Fuera
+
+↓
+
+DIV
+
+✓ mouseenter
+
+Después bajas al botón.
+
+DIV
+
+↓
+
+BUTTON
+
+No ocurre nada.
+
+Porque el cursor nunca salió del DIV.
+*/
+
+// ================= mouseleave  ==================
+/*
+Es el opuesto.
+
+Solo ocurre cuando abandonas completamente el elemento.
+
+BUTTON
+
+↓
+
+DIV
+
+↓
+
+Fuera
+
+✓ mouseleave
+
+Moverte entre los hijos no lo dispara.
+*/
+
+// ================= relatedTarget  ==================
+/*
+Cuando ocurre mouseover o mouseout, el objeto event incluye: event.relatedTarget
+
+Esta propiedad representa el otro elemento involucrado en el movimiento del cursor.
+
+Ejemplo:
+
+Fuera
+
+↓
+
+DIV
+
+En el mouseover del DIV:
+
+event.target → el DIV (donde ocurrió el evento).
+event.relatedTarget → el elemento desde el que venía el cursor (o null si venía de fuera de la ventana).
+
+Otro ejemplo:
+
+DIV
+
+↓
+
+BUTTON
+
+En el mouseover del BUTTON:
+
+event.target → BUTTON.
+event.relatedTarget → DIV.
+
+Y al salir del BUTTON hacia el DIV (mouseout del BUTTON):
+
+event.target → BUTTON.
+event.relatedTarget → DIV.
+
+Esto permite saber exactamente de dónde viene y hacia dónde va el cursor.
+*/
+
+/*
+mousemove
+↓
+
+"El cursor se está moviendo."
+
+----------------------------
+
+mouseover
+↓
+
+"Entré a este elemento... incluso si es un hijo."
+
+----------------------------
+
+mouseout
+↓
+
+"Salí de este elemento... incluso para entrar a un hijo."
+
+----------------------------
+
+mouseenter
+↓
+
+"Entré por primera vez al componente."
+
+----------------------------
+
+mouseleave
+↓
+
+"Salí completamente del componente."
+
+*/
+
+
+
+
+
+
 
 
 

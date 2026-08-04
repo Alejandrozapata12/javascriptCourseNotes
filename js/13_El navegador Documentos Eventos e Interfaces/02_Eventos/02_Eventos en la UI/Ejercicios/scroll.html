@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Scroll Demo</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f5f7fa;
+}
+
+header{
+
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:20px 40px;
+    background:#2563eb;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:.3s;
+    z-index:1000;
+
+}
+
+header.scrolled{
+
+    padding:12px 40px;
+    background:#1e40af;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+
+}
+
+header h2{
+    font-size:22px;
+}
+
+nav a{
+
+    color:white;
+    text-decoration:none;
+    margin-left:25px;
+    font-weight:bold;
+
+}
+
+.hero{
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    color:white;
+    text-align:center;
+
+}
+
+.hero h1{
+
+    font-size:48px;
+    margin-bottom:15px;
+
+}
+
+.hero p{
+
+    font-size:20px;
+
+}
+
+.container{
+
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    padding:80px 0;
+
+}
+
+.section-title{
+
+    margin-bottom:40px;
+    font-size:32px;
+
+}
+
+.cards{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+
+}
+
+.card{
+
+    background:white;
+    border-radius:12px;
+    padding:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+    opacity:0;
+    transform:translateY(60px);
+
+    transition:1s;
+
+}
+
+.card.show{
+
+    opacity:1;
+    transform:translateY(0);
+
+}
+
+.card h3{
+
+    margin-bottom:15px;
+
+}
+
+.chart{
+
+    height:300px;
+    background:white;
+    border-radius:12px;
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+    opacity:0;
+    transform:translateY(60px);
+
+    transition:1s;
+
+}
+
+.chart.show{
+
+    opacity:1;
+    transform:translateY(0);
+
+}
+
+#topBtn{
+
+    position:fixed;
+    right:30px;
+    bottom:30px;
+
+    width:55px;
+    height:55px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#2563eb;
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    display:none;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.3);
+
+}
+
+footer{
+
+    padding:60px;
+    text-align:center;
+    background:#1f2937;
+    color:white;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header id="header">
+
+<h2>AdminPanel</h2>
+
+<nav>
+
+<a href="#">Dashboard</a>
+<a href="#">Ventas</a>
+<a href="#">Usuarios</a>
+<a href="#">Reportes</a>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>Dashboard Administrativo</h1>
+
+<p>Desplázate hacia abajo para ver aparecer los componentes.</p>
+
+</section>
+
+<div class="container">
+
+<h2 class="section-title">Indicadores</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Ventas</h3>
+<p>$ 18.500.000</p>
+</div>
+
+<div class="card">
+<h3>Clientes</h3>
+<p>2.450</p>
+</div>
+
+<div class="card">
+<h3>Productos</h3>
+<p>540</p>
+</div>
+
+<div class="card">
+<h3>Pedidos</h3>
+<p>1.275</p>
+</div>
+
+<div class="card">
+<h3>Facturación</h3>
+<p>98%</p>
+</div>
+
+<div class="card">
+<h3>Inventario</h3>
+<p>12.450 unidades</p>
+</div>
+
+</div>
+
+<div class="chart">
+
+📈 Aquí iría un gráfico (Chart.js)
+
+</div>
+
+</div>
+
+<footer>
+
+Fin del Dashboard
+
+</footer>
+
+<button id="topBtn">↑</button>
+
+<script>
+
+const header=document.querySelector("#header");
+const topBtn=document.querySelector("#topBtn");
+
+/*==========================
+SCROLL
+==========================*/
+
+window.addEventListener("scroll",()=>{
+
+    // Saber cuánto ha bajado el usuario
+    const scroll=window.scrollY;
+
+    console.log("Scroll:",scroll);
+
+    // Cambiar el header
+    if(scroll>100){
+
+        header.classList.add("scrolled");
+
+        topBtn.style.display="block";
+
+    }else{
+
+        header.classList.remove("scrolled");
+
+        topBtn.style.display="none";
+
+    }
+
+});
+
+/*==========================
+BOTÓN VOLVER ARRIBA
+==========================*/
+
+topBtn.addEventListener("click",()=>{
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+});
+
+/*==========================
+ANIMACIÓN AL APARECER
+==========================*/
+
+const observer=new IntersectionObserver((entries)=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("show");
+
+        }
+
+    });
+
+},{
+    threshold:.25
+});
+
+document.querySelectorAll(".card,.chart").forEach(element=>{
+
+    observer.observe(element);
+
+});
+
+</script>
+
+</body>
+</html>

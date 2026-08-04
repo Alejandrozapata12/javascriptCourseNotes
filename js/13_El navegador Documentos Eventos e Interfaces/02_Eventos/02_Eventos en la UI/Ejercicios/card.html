@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card</title>
+    <style>
+        .card{
+
+    width:300px;
+
+    padding:20px;
+
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    transition:.3s;
+
+}
+
+.card.active{
+
+    background:#e3f2fd;
+
+    transform:scale(1.03);
+
+}
+    </style>
+</head>
+<body>
+    <div class="card">
+
+    <h2>Laptop Gamer</h2>
+
+    <button>Comprar</button>
+
+</div>
+
+
+<script>
+const card = document.querySelector(".card");
+
+card.addEventListener("mouseenter", () => {
+
+    console.log("Entró a la tarjeta");
+
+    card.classList.add("active");
+
+});
+
+card.addEventListener("mouseleave", () => {
+
+    console.log("Salió de la tarjeta");
+
+    card.classList.remove("active");
+
+});
+
+card.addEventListener("mousemove", (event) => {
+
+    console.log(
+        `X: ${event.clientX}, Y: ${event.clientY}`
+    );
+
+});
+</script>
+</body>
+</html>

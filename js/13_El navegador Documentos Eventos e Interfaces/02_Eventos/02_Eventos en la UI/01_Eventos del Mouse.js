@@ -40,13 +40,13 @@ zona.addEventListener('mousemove', (event) => {
 // 2. Detectar qué botón presionó (usando mousedown)
 zona.addEventListener('mousedown', (event) => {
   let botonNombre = '';
-  
-  switch(event.button) {
+
+  switch (event.button) {
     case 0: botonNombre = 'Izquierdo'; break;
     case 1: botonNombre = 'Central (Rueda)'; break;
     case 2: botonNombre = 'Derecho'; break;
   }
-  
+
   txtBoton.textContent = botonNombre;
 });
 
@@ -57,16 +57,239 @@ zona.addEventListener('contextmenu', (event) => {
 });
 
 
+/*
+Los eventos más importantes
+
+Evento	          ¿Cuándo ocurre?         	                                    Uso más común
+click	                  Clic izquierdo completo (presionar y soltar)	   Botones, enlaces
+dblclick	            Doble clic	                                                        Editar elementos, abrir archivos
+mousedown	      Cuando presionas el botón del mouse           	Comenzar un drag & drop
+mouseup          	 Cuando sueltas el botón	                                Finalizar un drag & drop
+contextmenu	     Clic derecho	                                                     Menús personalizados
+*/
+
+// Entendimiento: 
 
 
+// ============== click - Es el evento más utilizado. ==============
+/*
+<button id="guardar">
+    Guardar
+</button>
+*/
+
+const boton = document.querySelector("#guardar");
+
+boton.addEventListener("click", () => {
+    console.log("Guardando.......")
+})
+
+/*
+Usuario
+
+↓
+
+Click
+
+↓
+
+click
+
+↓
+
+Guardar
+ */
+
+// ============== dblclick - Ocurre cuando haces dos clics rápidamente. ==============
+boton.addEventListener("dblclick", () => {
+
+    console.log("Doble clic");
+
+});
+
+/*
+Muy utilizado en:
+
+Exploradores de archivos.
+Hojas de cálculo.
+Editores de texto.
+*/
+
+// ============== mousedown - Se ejecuta inmediatamente cuando presionas el botón. No espera a que lo sueltes.==============
+boton.addEventListener("mousedown", () => {
+
+    console.log("Presionando");
+
+});
+
+/*
+Muy útil para:
+
+Drag & Drop.
+Juegos.
+Dibujar.
+*/
+
+// ============== mouseup - Cuando sueltas el botón. Normalmente se combina con mousedown.==============
+boton.addEventListener("mouseup", () => {
+
+    console.log("Soltó");
+
+});
 
 
+// ============== contextmenu - Cuando haces clic derecho.==============
+document.addEventListener("contextmenu",(event)=>{
+
+    event.preventDefault();
+
+    console.log("Mostrar menú personalizado");
+
+});
+
+/*
+Así se crean los menús contextuales de aplicaciones como VS Code o Google Drive.
+*/
+
+//  ************************************************************ El objeto MouseEvent *****************************************************
+
+/*
+Todos estos eventos reciben un objeto llamado: event.
+Pero realmente es un: MouseEvent Tiene muchísima información.
+*/
+
+// clientX- Posición horizontal del mouse dentro de la ventana.
+console.log(event.clientX); 
+
+/*
+Ejemplo: 
+
+0px
+
+↓
+
+-------------------------
+
+             Mouse
+
+-------------------------
+
+1000px
+
+Si el cursor está en 420 px.
+event.clientX
+
+vale : 420 px
 
 
+clientY
+
+Posición vertical.
+
+console.log(event.clientY);
+
+*/
 
 
+// button - Indica qué botón fue presionado.
+console.log(event.button);
+
+/*
+Devuelve.
+
+Valor	Botón
+0	Izquierdo
+1	Central (rueda)
+2	Derecho
+*/
+
+// Ejemplo
+if(event.button === 2){
+  console.log("Click derecho")
+}
+
+/*
+ctrlKey
+
+¿Se estaba presionando CTRL?
+
+if(event.ctrlKey){
+
+console.log("CTRL presionado");
+
+}
+shiftKey
+event.shiftKey
+altKey
+event.altKey
+metaKey
+
+En Windows.
+
+Tecla Windows
+
+En Mac.
+
+Command ⌘
+*/
+
+// Ejemplo CTRL + CLIC
+
+boton.addEventListener("click",(e) => {
+
+  if(e.ctrlKey){
+    console.log("Abrir en otra pestaña")
+  }
+})
 
 
+/*
+SHIFT + Click
 
+Muy usado para seleccionar varios elementos.
 
+Como Windows Explorer.
+
+ALT + Click
+
+Algunas aplicaciones muestran información adicional.
+*/
+
+// Ejemplo
+
+const card = document.querySelector(".card");
+
+card.addEventListener("mousedown",(event)=>{
+
+    console.log("Mouse presionado");
+
+    console.log("Botón:",event.button);
+
+});
+
+card.addEventListener("mouseup",()=>{
+
+    console.log("Mouse liberado");
+
+});
+
+card.addEventListener("click",()=>{
+
+    console.log("Click completo");
+
+});
+
+card.addEventListener("dblclick",()=>{
+
+    console.log("Doble click");
+
+});
+
+card.addEventListener("contextmenu",(event)=>{
+
+    event.preventDefault();
+
+    console.log("Menú personalizado");
+
+});
 

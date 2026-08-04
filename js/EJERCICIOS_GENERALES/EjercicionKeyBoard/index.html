@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard ejercicio</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: darkslategray;
+            color: white;
+        }
+
+        .container {
+            border-radius: 11px;
+            
+            width: 200px;
+
+            height: 200px;
+
+            background: #2196f3;
+
+            position: absolute;
+
+            left: 100px;
+
+            top: 120px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container"></div>
+
+
+
+    <script>
+        const cont = document.querySelector(".container");
+
+        let x = 100;
+        let y = 120;
+
+        document.addEventListener("keydown", (event) => {
+
+            switch (event.key) {
+
+                case "ArrowLeft":
+                    x -= 10;
+                    break;
+
+                case "ArrowRight":
+                    x += 10;
+                    break;
+
+                case "ArrowUp":
+                    y -= 10;
+                    break;
+
+                case "ArrowDown":
+                    y += 10;
+                    break;
+
+            }
+
+            cont.style.left = x + "px";
+            cont.style.top = y + "px";
+
+        });
+    </script>
+</body>
+
+</html>
