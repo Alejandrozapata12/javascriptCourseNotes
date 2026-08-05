@@ -62,6 +62,57 @@ input.addEventListener("input", () => {
 });
 
 
+// =================   3. Evento change  =================
+/*
+Aquí viene la diferencia importante.
+
+change NO ocurre mientras escribes.
+
+Solo ocurre cuando:
+
+El valor cambió.
+El usuario terminó la edición (normalmente al perder el foco).
+*/
+input.addEventListener("change", () => {
+
+    console.log("Terminó de editar");
+
+});
+
+
+// =================   4. Evento cut  =================
+input.addEventListener("cut", () => {
+
+    console.log("Texto cortado");
+
+});
+
+// =================   5. Evento copy =================
+/*
+Cuando copias.
+
+Ctrl + C
+
+↓
+
+copy
+*/
+
+
+// =================   6. Evento paste =================
+/*
+Cuando pegas.
+
+Ctrl + V
+
+↓
+
+paste
+*/
+
+
+
+
 
 
 
