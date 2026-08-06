@@ -76,7 +76,31 @@ console.log("Formulario enviado.");
 
 
 
+/*
+💡 Consejo profesional
 
+Cuando empieces a desarrollar aplicaciones completas, intenta seguir siempre esta estructura dentro del evento submit:
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    // 1. Obtener los datos del formulario.
+
+    // 2. Validarlos.
+
+    // 3. Mostrar un estado de carga.
+
+    // 4. Enviar la petición a la API.
+
+    // 5. Procesar la respuesta.
+
+    // 6. Manejar posibles errores.
+
+    // 7. Restaurar la interfaz (habilitar botón, ocultar loading, etc.).
+});
+
+Este patrón lo verás repetidamente en proyectos profesionales con JavaScript, React, Vue, Angular y prácticamente cualquier aplicación web moderna.
+ */
 
 
 

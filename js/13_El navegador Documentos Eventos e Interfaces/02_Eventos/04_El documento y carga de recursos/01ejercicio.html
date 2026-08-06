@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Eventos de carga</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+padding:40px;
+
+}
+
+img{
+
+width:300px;
+
+display:block;
+
+margin-top:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 id="titulo">
+
+JavaScript.info
+
+</h1>
+
+<img
+src="https://picsum.photos/600/400">
+
+<script>
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+console.log("DOM listo");
+
+document.querySelector("#titulo").style.color="blue";
+
+});
+
+window.addEventListener("load",()=>{
+
+console.log("Toda la página terminó de cargar");
+
+});
+
+window.addEventListener("beforeunload",(event)=>{
+
+event.preventDefault();
+
+event.returnValue="";
+
+});
+
+</script>
+
+</body>
+
+</html>
