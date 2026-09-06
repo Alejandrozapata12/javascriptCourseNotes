@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2 | Buscador de productos</title>
+   <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body{
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .containerTable{
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 400px;
+
+        h1{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"]{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button{
+            width: 100%;
+            padding: 10px;
+            background-color: #0011ff;
+            color: #fcfcfc;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover{
+            background-color: #0000cc;
+        }   
+
+
+    }
+
+
+   </style>
+</head>
+<body>
+    <div class="containerTable">
+        <h1>Buscador de productos</h1>
+        <input type="text" id="searchInput" placeholder="Buscar producto...">
+        <button id="searchButton">Buscar</button>
+        <div id="results"></div>
+
+    </div>
+
+
+    <script>
+        const products = [
+            { name: "Laptop", price: 1000 },
+            { name: "Smartphone", price: 500 },
+            { name: "Tablet", price: 300 },
+            { name: "Headphones", price: 100 },
+            { name: "Smartwatch", price: 200 }
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const resultsDiv = document.getElementById('results');
+
+        searchButton.addEventListener('click', () => {
+            const query = searchInput.value.toLowerCase();
+            const filteredProducts = products.filter(product => product.name.toLowerCase().includes(query));
+            
+            displayResults(filteredProducts);
+        });
+
+        function displayResults(products) {
+            resultsDiv.innerHTML = '';
+            if (products.length === 0) {
+                resultsDiv.innerHTML = '<p>No se encontraron productos.</p>';
+                return;
+            }
+
+            const ul = document.createElement('ul');
+            products.forEach(product => {
+                const li = document.createElement('li');
+                li.textContent = `${product.name} - $${product.price}`;
+                ul.appendChild(li);
+            });
+            resultsDiv.appendChild(ul);
+        }
+    </script>
+</body>
+</html>

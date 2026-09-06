@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de tareas</title>
+
+    <style>
+
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            font-family: Arial, sans-serif;
+            background-color: darkslategrey;
+        }
+        .container_list {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(238, 46, 46, 0.1);
+            margin-top: 50px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .task_input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .task_list {
+            list-style-type: none;
+            padding: 0;
+        } 
+        
+
+        button {
+            padding: 11px 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #85dd21;
+            color: white;
+        }
+
+        p {
+            margin-top: 10px;
+            color: white;
+        }
+        
+
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container_list">
+        <h1 class="title">Lista de tareas</h1>
+        <input type="text" class="task_input" placeholder="Ingrese una tarea">
+        <button id="addTaskButton">Agregar tarea</button>
+        <ul class="task_list">
+            <!-- Aquí se agregarán las tareas dinámicamente -->
+        </ul>
+        <p id="pendingCount">Tareas pendientes: 0</p>
+        <p id="alertas"></p>
+    </div>
+
+
+    <script>
+        const taskInput = document.querySelector('.task_input');
+        const addTaskButton = document.getElementById('addTaskButton');
+        const taskList = document.querySelector('.task_list');
+        const pendingCount = document.getElementById('pendingCount');
+        const alertas = document.getElementById('alertas');
+
+        let tasks = [];
+
+        function actualizarContadorPendientes() {
+            pendingCount.textContent = `Tareas pendientes: ${tasks.length}`;
+        }
+
+        function agregarTarea() {
+            const entrada = taskInput.value.trim();
+            if(entrada !== " "){
+            tasks.push(entrada);
+            renderTareas();
+            taskInput.value = '';
+            actualizarContadorPendientes();
+            } else if(entrada === " "){
+                alertas.textContent = "No se puede agregar una tarea vacía"; 
+                
+            }
+        }
+
+
+        function renderTareas(){
+            taskList.innerHTML = '';
+            tasks.forEach((tarea) => {
+              const li = document.createElement("li");
+              li.textContent = tarea;
+              taskList.appendChild(li);
+            })
+        }
+
+        addTaskButton.addEventListener('click', agregarTarea);
+        
+        
+    </script>
+
+</body>
+
+</html>
