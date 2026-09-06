@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de gastos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main>
+        <h1>Gestor de gastos</h1>
+
+        <form id="expense-form">
+            <label for="description">Descripción</label>
+            <input id="description" name="description" type="text" required>
+
+            <label for="amount">Cantidad</label>
+            <input id="amount" name="amount" type="number" min="0" step="0.01" required>
+
+            <label for="category">Categoría</label>
+            <select id="category" name="category" required>
+                <option value="">Selecciona una categoría</option>
+                <option value="Comida">Comida</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Ocio">Ocio</option>
+                <option value="Hogar">Hogar</option>
+                <option value="Educación">Educación</option>
+                <option value="Otros">Otros</option>
+            </select>
+
+            <label for="date">Fecha</label>
+            <input id="date" name="date" type="date" required>
+
+            <button type="submit">Añadir gasto</button>
+        </form>
+
+        <section aria-label="Resumen">
+            <p>Total: <span id="total">0.00</span></p>
+            <p>Gastos: <span id="count">0</span></p>
+            <p>Promedio: <span id="average">0.00</span></p>
+        </section>
+
+        <label for="category-filter">Filtrar por categoría</label>
+        <select id="category-filter">
+            <option value="Todas">Todas</option>
+            <option value="Comida">Comida</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Ocio">Ocio</option>
+            <option value="Hogar">Hogar</option>
+            <option value="Educación">Educación</option>
+            <option value="Otros">Otros</option>
+        </select>
+
+        <p id="empty-message">Todavía no hay gastos.</p>
+        <ul id="expense-list"></ul>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
